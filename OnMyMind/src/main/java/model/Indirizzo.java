@@ -31,7 +31,7 @@ public class Indirizzo {
 	public String getCap() {
 		return cap;
 	}
-	public void setCAP(String cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 	public String getCitta() {
