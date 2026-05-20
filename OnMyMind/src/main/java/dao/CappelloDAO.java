@@ -21,7 +21,7 @@ public class CappelloDAO {
             ps.setString(2, c.getNome());
             ps.setString(3, c.getDescrizione());
             ps.setDouble(4, c.getPrezzo());
-            ps.setString(5, String.valueOf(c.getTaglia()));
+            ps.setString(5, c.getTaglia());
             ps.setString(6, c.getColore());
             ps.setString(7, c.getMateriale());
             ps.setInt(8, c.getQuantitaMagazzino());
@@ -119,7 +119,7 @@ public class CappelloDAO {
         }
     }
 
-    public ArrayList<Cappello> search(Integer idCategoria, String colore, String taglia, Double prezzoMax) {
+    public ArrayList<Cappello> search(Integer idCategoria, String colore, String taglia, Double prezzoMin, Double prezzoMax) {
 
         ArrayList<Cappello> list = new ArrayList<>();
 
@@ -130,6 +130,7 @@ public class CappelloDAO {
             if (idCategoria != null) sql.append(" AND id_categoria = ?");
             if (colore != null) sql.append(" AND colore = ?");
             if (taglia != null) sql.append(" AND taglia = ?");
+            if (prezzoMin != null) sql.append(" AND prezzo >= ?");
             if (prezzoMax != null) sql.append(" AND prezzo <= ?");
 
             PreparedStatement ps = conn.prepareStatement(sql.toString());
@@ -139,6 +140,7 @@ public class CappelloDAO {
             if (idCategoria != null) ps.setInt(i++, idCategoria);
             if (colore != null) ps.setString(i++, colore);
             if (taglia != null) ps.setString(i++, taglia);
+            if (prezzoMin != null) ps.setDouble(i++, prezzoMin);
             if (prezzoMax != null) ps.setDouble(i++, prezzoMax);
 
             ResultSet rs = ps.executeQuery();
