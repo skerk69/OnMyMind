@@ -15,7 +15,7 @@ public class Cappello {
 	private LocalDate data_aggiunta;
 	private String immagine;
 	private String descrizione;
-	private ArrayList<Categoria> categorie;
+	private Categoria categoria;
 	private ArrayList<Recensione> recensioni;
 	private ArrayList<DettaglioOrdine> dettagliordini;
 	
@@ -79,11 +79,11 @@ public class Cappello {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	public ArrayList<Categoria> getCategorie() {
-		return categorie;
+	public Categoria getCategoria() {
+		return categoria;
 	}
-	public void setCategorie(ArrayList<Categoria> categorie) {
-		this.categorie = categorie;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	public ArrayList<Recensione> getRecensioni() {
 		return recensioni;
