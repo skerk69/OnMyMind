@@ -7,16 +7,36 @@ public class Utente {
 	private int id_utente;
 	private String nome;
 	private String cognome;
-	private String mail;
+	private String email;
 	private String password;
 	private String telefono;
 	private Ruolo ruolo;
-	private ArrayList<Ordine> ordini;
-	private ArrayList<Recensione> recensioni;
-	private ArrayList<Indirizzo> indirizzi;
+	private ArrayList<Ordine> ordini= new ArrayList<Ordine>();
+	private ArrayList<Recensione> recensioni= new ArrayList<Recensione>();
+	private ArrayList<Indirizzo> indirizzi= new ArrayList<Indirizzo>();
 	
 	public enum Ruolo{
-		UTENTE, ADMIN
+		UTENTE("utente"),
+		ADMIN("admin");
+		
+		private String dbValue;
+
+		Ruolo(String dbValue){
+		    this.dbValue = dbValue;
+		}
+
+		public String getDbValue(){
+		    return dbValue;
+		}
+		
+		public static Ruolo fromDb(String value) {
+		    for (Ruolo r : values()) {
+		        if (r.dbValue.equalsIgnoreCase(value)) {
+		            return r;
+		        }
+		    }
+		    throw new IllegalArgumentException("Ruolo non valido: " + value);
+		}
 	}
 
 	public int getId_utente() {
@@ -43,12 +63,12 @@ public class Utente {
 		this.cognome = cognome;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -97,7 +117,7 @@ public class Utente {
 
 	public void setIndirizzi(ArrayList<Indirizzo> indirizzi) {
 		this.indirizzi = indirizzi;
-	};
+	}
 	
 	
 	

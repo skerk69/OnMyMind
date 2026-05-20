@@ -1,12 +1,12 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Recensione {
 
 	private int id_recensione;
 	private int voto;
-	private LocalDate data_recensione;
+	private LocalDateTime data_recensione;
 	private String commento;
 	private Utente utente;
 	private Cappello cappello;
@@ -21,12 +21,15 @@ public class Recensione {
 		return voto;
 	}
 	public void setVoto(int voto) {
+		if (voto < 1 || voto > 5) {
+		    throw new IllegalArgumentException("Voto non valido");
+		}
 		this.voto = voto;
 	}
-	public LocalDate getData_recensione() {
+	public LocalDateTime getData_recensione() {
 		return data_recensione;
 	}
-	public void setData_recensione(LocalDate data_recensione) {
+	public void setData_recensione(LocalDateTime data_recensione) {
 		this.data_recensione = data_recensione;
 	}
 	public String getCommento() {

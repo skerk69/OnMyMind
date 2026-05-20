@@ -7,13 +7,33 @@ public class Pagamento {
 	private StatoPagamento stato_pagamento;
 	private Ordine ordine;
 	
-	public enum StatoPagamento{
-		IN_ATTESA,
-		COMPLETATO,
-		FALLITO,
-		RIMBORSATO
-	}
+	public enum StatoPagamento {
+	    IN_ATTESA("in_attesa"),
+	    COMPLETATO("completato"),
+	    FALLITO("fallito"),
+	    RIMBORSATO("rimborsato");
 
+	    private String dbValue;
+
+	    StatoPagamento(String dbValue) {
+	        this.dbValue = dbValue;
+	    }
+
+	    public String getDbValue() {
+	        return dbValue;
+	    }
+
+	    public static StatoPagamento fromDb(String value) {
+	        for (StatoPagamento s : values()) {
+	            if (s.dbValue.equalsIgnoreCase(value)) {
+	                return s;
+	            }
+	        }
+	        throw new IllegalArgumentException("Stato non valido: " + value);
+	    }
+	}
+	
+	
 	public int getId_pagamento() {
 		return id_pagamento;
 	}

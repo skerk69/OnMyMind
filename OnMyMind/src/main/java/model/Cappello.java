@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Cappello {
@@ -8,16 +8,16 @@ public class Cappello {
 	private int id_cappello;
 	private String nome;
 	private double prezzo;
-	private char taglia;
+	private String taglia;
 	private String materiale;
 	private String colore;
-	private int quantita;
-	private LocalDate data_aggiunta;
+	private int quantita_magazzino;
+	private LocalDateTime data_aggiunta;
 	private String immagine;
 	private String descrizione;
 	private Categoria categoria;
-	private ArrayList<Recensione> recensioni;
-	private ArrayList<DettaglioOrdine> dettagliordini;
+	private ArrayList<Recensione> recensioni= new ArrayList<Recensione>();
+	private ArrayList<DettaglioOrdine> dettagliordini= new ArrayList<DettaglioOrdine>();
 	
 	public int getId_cappello() {
 		return id_cappello;
@@ -37,10 +37,10 @@ public class Cappello {
 	public void setPrezzo(double prezzo) {
 		this.prezzo = prezzo;
 	}
-	public char getTaglia() {
+	public String getTaglia() {
 		return taglia;
 	}
-	public void setTaglia(char taglia) {
+	public void setTaglia(String taglia) {
 		this.taglia = taglia;
 	}
 	public String getMateriale() {
@@ -55,16 +55,16 @@ public class Cappello {
 	public void setColore(String colore) {
 		this.colore = colore;
 	}
-	public int getQuantita() {
-		return quantita;
+	public int getQuantitaMagazzino() {
+		return quantita_magazzino;
 	}
-	public void setQuantita(int quantita) {
-		this.quantita = quantita;
+	public void setQuantitaMagazzino(int quantita_magazzino) {
+		this.quantita_magazzino = quantita_magazzino;
 	}
-	public LocalDate getData_aggiunta() {
+	public LocalDateTime getData_aggiunta() {
 		return data_aggiunta;
 	}
-	public void setData_aggiunta(LocalDate data_aggiunta) {
+	public void setData_aggiunta(LocalDateTime data_aggiunta) {
 		this.data_aggiunta = data_aggiunta;
 	}
 	public String getImmagine() {

@@ -5,7 +5,7 @@ public class Indirizzo {
 	private int id_indirizzo;
 	private String paese;
 	private String provincia;
-	private String CAP;
+	private String cap;
 	private String citta;
 	private String via;
 	private Utente utente;
@@ -28,11 +28,11 @@ public class Indirizzo {
 	public void setProvincia(String provincia) {
 		this.provincia = provincia;
 	}
-	public String getCAP() {
-		return CAP;
+	public String getCap() {
+		return cap;
 	}
-	public void setCAP(String cAP) {
-		CAP = cAP;
+	public void setCAP(String cap) {
+		this.cap = cap;
 	}
 	public String getCitta() {
 		return citta;

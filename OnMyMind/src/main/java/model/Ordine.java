@@ -1,24 +1,43 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Ordine {
 
 	private int id_ordine;
 	private double totale;
-	private LocalDate data_ordine;
+	private LocalDateTime data_ordine;
 	private StatoOrdine stato_ordine;
 	private Pagamento pagamento;
-	private ArrayList<DettaglioOrdine> dettagliordini;
+	private ArrayList<DettaglioOrdine> dettagliordini= new ArrayList<DettaglioOrdine>();
 	private Utente utente;
 	
 	public enum StatoOrdine{
-		IN_ATTESA,
-		PAGATO,
-		SPEDITO,
-		CONSEGNATO,
-		ANNULLATO
+		IN_ATTESA("in_attesa"),
+		PAGATO("pagato"),
+		SPEDITO("spedito"),
+		CONSEGNATO("consegnato"),
+		ANNULLATO("annullato");
+		
+		private String dbValue;
+		
+		StatoOrdine(String dbValue){
+			this.dbValue=dbValue;
+		}
+		
+		public String getDbValue() {
+			return dbValue;
+		}
+		
+		public static StatoOrdine fromDb(String value) {
+		    for (StatoOrdine s : values()) {
+		        if (s.dbValue.equalsIgnoreCase(value)) {
+		            return s;
+		        }
+		    }
+		    throw new IllegalArgumentException("Stato non valido: " + value);
+		}
 	}
 
 	public int getId_ordine() {
@@ -37,11 +56,11 @@ public class Ordine {
 		this.totale = totale;
 	}
 
-	public LocalDate getData_ordine() {
+	public LocalDateTime getData_ordine() {
 		return data_ordine;
 	}
 
-	public void setData_ordine(LocalDate data_ordine) {
+	public void setData_ordine(LocalDateTime data_ordine) {
 		this.data_ordine = data_ordine;
 	}
 
@@ -75,7 +94,7 @@ public class Ordine {
 
 	public void setUtente(Utente utente) {
 		this.utente = utente;
-	};
+	}
 	
 	
 }
