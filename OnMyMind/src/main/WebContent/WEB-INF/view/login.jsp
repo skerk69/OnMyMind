@@ -7,6 +7,10 @@
 <title>Login Page</title>
 </head>
 <body>
-aaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaa
+
+
+<a href="${pageContext.request.contextPath}/management">accedi alla lista prodotti</a>
+
 </body>
 </html>
