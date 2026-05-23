@@ -13,7 +13,7 @@
 <%@ page import="model.Categoria" %>
 <h2>Aggiungi Cappello</h2>
 
-<form action="CappelloServlet" method="post" enctype="multipart/form-data">
+<form action="/product" method="post" enctype="multipart/form-data">
     Categoria: <select name=id_categoria>
     
     <%
