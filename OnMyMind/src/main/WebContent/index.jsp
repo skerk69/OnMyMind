@@ -15,6 +15,7 @@
 <li>HOME</li>
 <li>COLLEZIONE</li>
 <li id="cerca">CERCA</li>
+<li><a href="${pageContext.request.contextPath}/login">LOGIN</a></li>
 </ul>
 </nav>
 
