@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import dao.CappelloDAO;
 import dao.CategoriaDAO;
 
+
 /**
  * Servlet implementation class ManagementServlet
  */
