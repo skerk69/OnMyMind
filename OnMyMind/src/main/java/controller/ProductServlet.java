@@ -26,7 +26,7 @@ public class ProductServlet extends HttpServlet {
 	
 	private CappelloDAO cap = new CappelloDAO();
 	private CategoriaDAO cat = new CategoriaDAO();
-	private Categoria categoria;
+	private Categoria categoria = null;
 	
     public ProductServlet() {
         super();
@@ -39,9 +39,7 @@ public class ProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		String action= request.getParameter("action");
-		
-		if(action==null) System.out.println("bbb");
-		
+			
 		switch(action) {
 		case "insert":  {
 			doInsert(request);
@@ -55,7 +53,7 @@ public class ProductServlet extends HttpServlet {
 			doDelete(request);
 		}
 		break;
-		default: System.out.println("aaa");
+		default:
 		}
 		
 		ArrayList<Categoria> listcat = cat.getAll();
@@ -118,9 +116,25 @@ public class ProductServlet extends HttpServlet {
 	}
 	
 	public void doModify(HttpServletRequest request) {
-	
-	//da fare
+
+		int id = Integer.parseInt(request.getParameter("id"));
 		
+		Cappello c = cap.getById(id);
+		
+		Categoria ct = cat.getById(Integer.parseInt(request.getParameter("id_categoria")));
+		
+		c.setId_cappello(id);
+		c.setCategoria(ct);
+		c.setNome(request.getParameter("nome"+ c.getId_cappello()));
+		c.setDescrizione(request.getParameter("descrizione"+ c.getId_cappello()));
+		c.setPrezzo(Double.parseDouble(request.getParameter("prezzo"+ c.getId_cappello())));
+		c.setTaglia(request.getParameter("taglia"+ c.getId_cappello()));
+		c.setColore(request.getParameter("colore"+ c.getId_cappello()));
+		c.setMateriale(request.getParameter("materiale"+ c.getId_cappello()));
+		c.setQuantitaMagazzino(Integer.parseInt(request.getParameter("quantita"+ c.getId_cappello())));
+		c.setImmagine(request.getParameter("immagine"+ c.getId_cappello()));
+		
+		cap.update(c);
 	}
 	
 	public void doDelete(HttpServletRequest request) {
