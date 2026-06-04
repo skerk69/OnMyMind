@@ -13,7 +13,7 @@
 <%@ page import="model.Categoria" %>
 <h2>Aggiungi Cappello</h2>
 
-<form action="/product" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/product" method="post" enctype="multipart/form-data">
     Categoria: <select name="categoria">
     
     <%
@@ -28,9 +28,9 @@
     <option value="0"> Nuova </option>
     
     </select><br>
-    
-    <input type="text" name="nomeCategoria" id="nomeCategoria" placeholder="Inserisci nome categoria">
-    <input type="text" name="descCategoria" id="descCategoria" placeholder="Inserisci descrizione categoria">   
+    <!-- far apparire e scomparire i due input sotto se la select è su "Nuova" -->
+    <input type="text" name="nomeCategoria" id="nomeCategoria" placeholder="Inserisci nome categoria"><br>
+    <input type="text" name="descCategoria" id="descCategoria" placeholder="Inserisci descrizione categoria"><br>
     
     Nome: <input type="text" name="nome"><br>
     Descrizione: <input type="text" name="descrizione"><br>
@@ -59,7 +59,7 @@ for (Cappello c : listCap) {
     <p>
         <%= c.getNome() %> - <%= c.getPrezzo() + "$" %>
 
-        <form action="CappelloServlet" method="post" style="display:inline;">
+        <form action="${pageContext.request.contextPath}/product" method="post" style="display:inline;">
             <input type="hidden" name="id" value="<%= c.getId_cappello() %>">
             <button type="submit" name="action" onclick=showModify()>Modifica</button>
             <!-- fare funzione showModify() con javascript e inserire button con invia e value="modify" -->
