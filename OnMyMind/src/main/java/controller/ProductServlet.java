@@ -79,7 +79,7 @@ public class ProductServlet extends HttpServlet {
 	public void doInsert(HttpServletRequest request) {
 		
 		
-		int id_categoria = Integer.parseInt(request.getParameter("categoria"));
+		int id_categoria = Integer.parseInt(request.getParameter("id_categoria"));
 		String nome= request.getParameter("nome");
 		String descrizione= request.getParameter("descrizione");
 		double prezzo= Double.parseDouble(request.getParameter("prezzo"));
@@ -94,8 +94,8 @@ public class ProductServlet extends HttpServlet {
 		
 		if(id_categoria == 0) {
 			categoria = new Categoria();
-			categoria.setNomeCategoria(request.getParameter("nomeCategoria"));
-			categoria.setDescrizione(request.getParameter("descCategoria"));
+			categoria.setNomeCategoria(request.getParameter("nome_categoria"));
+			categoria.setDescrizione(request.getParameter("descrizione_categoria"));
 			cat.insert(categoria);
 		}else {
 			categoria = cat.getById(id_categoria);
@@ -120,19 +120,43 @@ public class ProductServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Cappello c = cap.getById(id);
+				
+		if(!request.getParameter("nome"+ c.getId_cappello()).isBlank())
+			c.setNome(request.getParameter("nome"+ c.getId_cappello()));
+		if(!request.getParameter("descrizione"+ c.getId_cappello()).isBlank())
+			c.setDescrizione(request.getParameter("descrizione"+ c.getId_cappello()));
 		
-		Categoria ct = cat.getById(Integer.parseInt(request.getParameter("id_categoria")));
+		String prezzoStr = request.getParameter("prezzo"+ c.getId_cappello());
+		if(!prezzoStr.isBlank()) {
+			double prezzo;
+			try{
+			prezzo= Double.parseDouble(prezzoStr);
+			}catch (Exception e) {
+			prezzo=c.getPrezzo();	
+			}
+			c.setPrezzo(prezzo);
+		}
 		
-		c.setId_cappello(id);
-		c.setCategoria(ct);
-		c.setNome(request.getParameter("nome"+ c.getId_cappello()));
-		c.setDescrizione(request.getParameter("descrizione"+ c.getId_cappello()));
-		c.setPrezzo(Double.parseDouble(request.getParameter("prezzo"+ c.getId_cappello())));
-		c.setTaglia(request.getParameter("taglia"+ c.getId_cappello()));
-		c.setColore(request.getParameter("colore"+ c.getId_cappello()));
-		c.setMateriale(request.getParameter("materiale"+ c.getId_cappello()));
-		c.setQuantitaMagazzino(Integer.parseInt(request.getParameter("quantita"+ c.getId_cappello())));
-		c.setImmagine(request.getParameter("immagine"+ c.getId_cappello()));
+		if(!request.getParameter("taglia"+ c.getId_cappello()).isBlank())
+			c.setTaglia(request.getParameter("taglia"+ c.getId_cappello()));
+		if(!request.getParameter("colore"+ c.getId_cappello()).isBlank())
+			c.setColore(request.getParameter("colore"+ c.getId_cappello()));
+		if(!request.getParameter("materiale"+ c.getId_cappello()).isBlank())
+			c.setMateriale(request.getParameter("materiale"+ c.getId_cappello()));
+
+		String quantitaStr = request.getParameter("quantita"+ c.getId_cappello());
+		if(!quantitaStr.isBlank()) {
+			int quantita;
+			try{
+			quantita= Integer.parseInt(quantitaStr);
+			}catch (Exception e) {
+			quantita=c.getQuantitaMagazzino();	
+			}
+			c.setQuantitaMagazzino(quantita);
+		}
+		
+		if(!request.getParameter("immagine"+ c.getId_cappello()).isBlank())
+			c.setImmagine(request.getParameter("immagine"+ c.getId_cappello()));
 		
 		cap.update(c);
 	}

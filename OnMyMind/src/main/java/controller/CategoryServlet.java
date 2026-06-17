@@ -75,11 +75,20 @@ public class CategoryServlet extends HttpServlet {
 	
 	public void doModify(HttpServletRequest request) {
 		
+		int id = Integer.parseInt(request.getParameter("id_categoria"));
+		
+		Categoria c = cat.getById(id);
+		
+		c.setNomeCategoria(request.getParameter("nome_categoria"));
+		c.setDescrizione(request.getParameter("descrizione_categoria"));
+		
+		cat.update(c);
+		
 	}
 	
 	public void doDelete(HttpServletRequest request) {
 		
-		int id = Integer.parseInt(request.getParameter("id"));
+		int id = Integer.parseInt(request.getParameter("id_categoria"));
 		
 		cat.delete(id);
 	}

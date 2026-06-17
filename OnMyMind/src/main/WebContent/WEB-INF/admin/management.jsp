@@ -14,10 +14,11 @@
 <h2>Aggiungi Cappello</h2>
 
 <form action="${pageContext.request.contextPath}/product" method="post" enctype="multipart/form-data">
-    Categoria: <select name="categoria">
+    Categoria: <select name="id_categoria">
     
     <%
     ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("categorie");
+    if(!listCat.isEmpty())
     for(Categoria cat: listCat)
     {
     %>
@@ -29,8 +30,10 @@
     
     </select><br>
     <!-- far apparire e scomparire i due input sotto se la select è su "Nuova" -->
-    <input type="text" name="nomeCategoria" id="nomeCategoria" placeholder="Inserisci nome categoria"><br>
-    <input type="text" name="descCategoria" id="descCategoria" placeholder="Inserisci descrizione categoria"><br>
+    Nome Categoria: <input type="text" name="nome_categoria"><br>
+    Descrizione: <input type="text" name="descrizione_categoria"><br>
+    
+    <br>
     
     Nome: <input type="text" name="nome"><br>
     Descrizione: <input type="text" name="descrizione"><br>
@@ -41,14 +44,13 @@
     Quantità: <input type="text" name="quantita"><br>
     Immagine: <input type="file" name="immagine"><br>
 
-    <input type="hidden" name="action" value="insert">
-
-    <button type="submit">Aggiungi</button>
+    <button type="submit" name="action" value="insert">Aggiungi</button>
 </form>
 
 <h2>Lista Categorie</h2>
 
 <%
+if(!listCat.isEmpty())
 for (Categoria c : listCat) {
 %>
 
@@ -72,7 +74,7 @@ for (Categoria c : listCat) {
 
 <%
 ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappelli");
-
+if(!listCap.isEmpty())
 for (Cappello c : listCap) {
 %>
 
