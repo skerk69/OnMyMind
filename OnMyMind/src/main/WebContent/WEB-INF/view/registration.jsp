@@ -27,12 +27,6 @@
 	<button type="submit">Registrati</button>
 </form>
 
-	private String nome;
-	private String cognome;
-	private String email;
-	private String password;
-	private String telefono;
-	private Ruolo ruolo;
 
 </body>
 </html>

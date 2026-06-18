@@ -19,9 +19,7 @@ import dao.UtenteDAO;
 @WebServlet("/loginpage")
 public class LoginPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	private UtenteDAO user = new UtenteDAO();
-	
+       	
     public LoginPageServlet() {
         super();
         // TODO Auto-generated constructor stub
@@ -32,23 +30,21 @@ public class LoginPageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//ArrayList<Utente> listUser = user.getAll();
-		
-		//request.setAttribute("utenti", listUser);
-		
+		/*
 		String ruoloStr = request.getParameter("ruolo");
 		
 		Ruolo ruolo = null;
-		
-		if(ruoloStr.equals("admin")) {
-			ruolo = Ruolo.ADMIN;
-		}else if(ruoloStr.equals("utente")) {
-			ruolo = Ruolo.UTENTE;
+		if(ruoloStr != null) {
+
+			if(ruoloStr.equals("admin")) {
+				ruolo = Ruolo.ADMIN;
+			}else if(ruoloStr.equals("utente")) {
+				ruolo = Ruolo.UTENTE;
+			}
 		}
-		
-			request.setAttribute("ruolo", ruolo);
+		*/
 	    
-			request.getRequestDispatcher("/WEB-INF/view/profile") //da fare
+			request.getRequestDispatcher("/WEB-INF/view/login.jsp") 
 	        .forward(request, response);
 		
 	}

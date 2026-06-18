@@ -47,18 +47,18 @@ public class LoginServlet extends HttpServlet {
 		}
 		break;
 		case "register": {
-			
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
 			
-			request.getRequestDispatcher("/WEB-INF/view/registration.jsp")
+			request.getRequestDispatcher("/registration")
 					.forward(request, response);
 		}
 		break;
-		default: request.getRequestDispatcher("/WEB-INF/view/login.jsp")
+		default: { 
+			request.getRequestDispatcher("/loginpage")
         			.forward(request, response);
 		}
-		
+		}
 		
 
 		
@@ -85,25 +85,25 @@ public class LoginServlet extends HttpServlet {
 			ruolo = u.getRuolo();
 		}
 		
-		HttpSession session = request.getSession();
+		if(ruolo != null) {
+		
+			HttpSession session = request.getSession();
 
-		if(ruolo.equals(Ruolo.ADMIN)) {
-			
 			session.setAttribute("ruolo", ruolo);
 			
-	        request.getRequestDispatcher("/WEB-INF/admin/management.jsp")
+			if(ruolo.equals(Ruolo.ADMIN)) {
+				request.getRequestDispatcher("/management")
+				.forward(request, response);
+				return;
+			}else if(ruolo.equals(Ruolo.UTENTE)) {
+				request.getRequestDispatcher("/home")
+				.forward(request, response);
+				return;
+				}
+			}
+		
+	        request.getRequestDispatcher("/loginpage")
 	        .forward(request, response);
-	        
-		}else if(ruolo.equals(Ruolo.UTENTE)) {
-			
-			session.setAttribute("ruolo", ruolo);
-			
-	        request.getRequestDispatcher("/WEB-INF/view/index.jsp")
-	        .forward(request, response);
-		}else {
-	        request.getRequestDispatcher("/WEB-INF/view/login.jsp")
-	        .forward(request, response);
-		}
 	}
 	
 

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Utente;
 import model.Utente.Ruolo;
 
@@ -35,12 +36,15 @@ public class RegisterServlet extends HttpServlet {
 		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String nome = request.getParameter("nome");
-		String cognome = request.getParameter("cognome");
-		String telefono = request.getParameter("telefono");
+
+		Utente u = user.login(email, password);
 		
-		doRegister(email, password, nome, cognome, telefono, request, response);
-		
+		if(u!=null) {
+			request.getRequestDispatcher("/login")
+				.forward(request, response);
+		}else {
+		doRegister(email, password, request, response);
+		}
 	}
 
 	/**
@@ -52,19 +56,18 @@ public class RegisterServlet extends HttpServlet {
 	}
 
 	
-	public void doRegister(String email, String password, String nome, String cognome, String telefono, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doRegister(String email, String password, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String nome = request.getParameter("nome");
+		String cognome = request.getParameter("cognome");
+		String telefono = request.getParameter("telefono");
 		
 		Utente u = user.login(email, password);
-		
-		if(u!=null) {
-			request.getRequestDispatcher("/controller/login")
-				.forward(request, response);
-		}
 		
 		u = new Utente();
 		
 		u.setEmail(email);
-		u.setPassword(hashPassword(password));
+		u.setPassword(password);
 		u.setNome(nome);
 		u.setCognome(cognome);
 		u.setTelefono(telefono);
@@ -72,27 +75,12 @@ public class RegisterServlet extends HttpServlet {
 		
 		user.insertUtente(u);
 		
+		HttpSession session = request.getSession();
+		session.setAttribute("ruolo", Ruolo.UTENTE);
+		
+        request.getRequestDispatcher("/home")
+        .forward(request, response);
 		
 	}
-	
-	public static String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            
-            byte[] hashBytes = digest.digest(password.getBytes());
-            
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hashBytes) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            
-            return hexString.toString();
-            
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Errore: Algoritmo di hashing non trovato", e);
-        }
-    }
 	
 }
