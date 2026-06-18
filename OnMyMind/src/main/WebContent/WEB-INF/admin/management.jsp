@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <title>Management Page</title>
 </head>
 <body>
@@ -18,39 +19,63 @@
     
     <%
     ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("categorie");
-    if(!listCat.isEmpty())
+    if(!listCat.isEmpty()){
     for(Categoria cat: listCat)
     {
     %>
     <option value=<%= cat.getId_categoria() %>><%= cat.getNomeCategoria() %></option>
     <%
-    }
+    }}
     %>
-    <option value="0"> Nuova </option>
     
     </select><br>
-    <!-- far apparire e scomparire i due input sotto se la select è su "Nuova" -->
-    Nome Categoria: <input type="text" name="nome_categoria"><br>
-    Descrizione: <input type="text" name="descrizione_categoria"><br>
-    
-    <br>
-    
-    Nome: <input type="text" name="nome"><br>
-    Descrizione: <input type="text" name="descrizione"><br>
-    Prezzo: <input type="text" name="prezzo"><br>
-    Taglia: <input type="text" name="taglia"><br>
-    Colore: <input type="text" name="colore"><br>
-    Materiale: <input type="text" name="materiale"><br>
-    Quantità: <input type="text" name="quantita"><br>
-    Immagine: <input type="file" name="immagine"><br>
-
+    <label>Nome:
+    <input type="text" name="nome"><br>
+    </label>
+    <label>Prezzo:
+    <input type="text" name="prezzo"><br>
+    </label>
+    <label>Taglia:
+    <input type="text" name="taglia"><br>
+    </label>
+    <label>Colore:
+    <input type="text" name="colore"><br>
+    </label>
+    <label>Materiale:
+    <input type="text" name="materiale"><br>
+    </label>
+    <label>Quantità:
+    <input type="text" name="quantita"><br>
+    </label>
+    <label>Immagine:
+    <input type="file" name="immagine"><br>
+	</label>
+	<label>Descrizione:
+    <textarea name="descrizione"></textarea><br>
+    </label>
+ 
     <button type="submit" name="action" value="insert">Aggiungi</button>
 </form>
+
+<h2>Aggiungi Categoria</h2>
+
+	<form action="${pageContext.request.contextPath}/category" method="post">
+
+ 		<label> Nome Categoria:
+ 		<input type="text" name="nuovo_nome_categoria"><br>
+  		</label>
+  		<label> Descrizione:
+  		<textarea name="nuova_descrizione_categoria"></textarea><br>
+   		</label>
+		<button type="submit" name="action" value="insert">Aggiungi</button>
+		
+
+	</form>
 
 <h2>Lista Categorie</h2>
 
 <%
-if(!listCat.isEmpty())
+if(!listCat.isEmpty()){
 for (Categoria c : listCat) {
 %>
 
@@ -59,48 +84,87 @@ for (Categoria c : listCat) {
         <%= c.getDescrizione() %>
 
         <form action="${pageContext.request.contextPath}/category" method="post">
-            <input type="hidden" name="id" value="<%= c.getId_categoria() %>">
-            <button type="submit" name="action" onclick=showModify()>Modifica</button>
-            <!-- fare funzione showModify() con javascript e inserire button con invia e value="modify" -->
+        
+            <label class="classeCategoria"> Nome Categoria:
+            <input type="text" name="nome_categoria<%= c.getId_categoria() %>" class="classeCategoria"><br class="classeCategoria">
+			</label>
+			<label class="classeCategoria"> Descrizione Categoria:
+			<textarea name="descrizione_categoria<%= c.getId_categoria() %>" class="classeCategoria"></textarea><br class="classeCategoria">
+        	</label>
+            <input type="hidden" name="id_categoria" value="<%= c.getId_categoria() %>">
+            <button type="button" class="modificaCategoria" onclick="showModifyCategoria(this)">Modifica</button>
+            <button type="submit" name="action" value="modify" class="confermaCategoria">Conferma Modifiche</button>
             <button type="submit" name="action" value="delete">Elimina</button>
         </form>
    
 
 <%
-}
+}}
 %>
 
 <h2>Lista Cappelli</h2>
 
 <%
 ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappelli");
-if(!listCap.isEmpty())
+if(!listCap.isEmpty()){
 for (Cappello c : listCap) {
 %>
 
     <p>
-        <%= c.getNome() %> - <%= c.getPrezzo() + "$" %>
+    	<img src="${pageContext.request.contextPath}/images/<%= c.getImmagine() %>" width=100><br>
+        <%= c.getNome() %> - <%= c.getPrezzo() + "$" %><br>
+        Categoria: <%= c.getCategoria().getNomeCategoria() %><br>
+        <%= c.getTaglia() %>, <%= c.getColore() %>, <%= c.getMateriale() %>, <%= c.getQuantitaMagazzino() %> <br>
+        <%= c.getDescrizione() %>
 
-        <form action="${pageContext.request.contextPath}/product" method="post">
+        <form action="${pageContext.request.contextPath}/product" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<%= c.getId_cappello() %>">
-                Nome: <input type="text" name="nome<%= c.getId_cappello() %>"><br>
- 			    Descrizione: <input type="text" name="descrizione<%= c.getId_cappello() %>"><br>
- 			    Prezzo: <input type="text" name="prezzo<%= c.getId_cappello() %>"><br>
-    			Taglia: <input type="text" name="taglia<%= c.getId_cappello() %>"><br>
-    			Colore: <input type="text" name="colore<%= c.getId_cappello() %>"><br>
-    			Materiale: <input type="text" name="materiale<%= c.getId_cappello() %>"><br>
-    			Quantità: <input type="text" name="quantita<%= c.getId_cappello() %>"><br>
-    			Immagine: <input type="file" name="immagine<%= c.getId_cappello() %>"><br>
-            <button type="submit" name="action" onclick=showModify()>Modifica</button>
-            <!-- fare funzione showModify() con javascript e inserire button con invia e value="modify" -->
+            
+            <select name="id_categoria<%= c.getId_cappello() %>" class="classeCappello">
+            	<%
+   				if(!listCat.isEmpty()){
+   				for(Categoria cat: listCat)
+   				{
+   				%>
+   				<option value="<%= cat.getId_categoria() %>"><%= cat.getNomeCategoria() %></option>
+   				<%
+   				}}
+    			%>
+            </select><br>
+                <label class="classeCappello"> Nome:
+                <input type="text" name="nome<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+                </label>	    
+ 			    <label class="classeCappello"> Prezzo:
+ 			    <input type="text" name="prezzo<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			</label>
+    			<label class="classeCappello"> Taglia:
+    			<input type="text" name="taglia<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			 </label>
+    			<label class="classeCappello"> Colore:
+    			<input type="text" name="colore<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			 </label>
+    			<label class="classeCappello"> Materiale:
+    			<input type="text" name="materiale<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			 </label>
+    			<label class="classeCappello"> Quantità:
+    			<input type="text" name="quantita<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			</label>
+    			<label class="classeCappello"> Immagine:
+    			<input type="file" name="immagine<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+             	</label>
+             	<label class="classeCappello"> Descrizione:
+				<textarea  name="descrizione<%= c.getId_cappello() %>" class="classeCappello"></textarea><br class="classeCappello">
+				</label>
+            <button type="button" class="modificaCappello" onclick="showModifyCappello(this)">Modifica</button>
+             <button type="submit" name="action" class="confermaCappello" value="modify">Conferma Modifiche</button>
             <button type="submit" name="action" value="delete">Elimina</button>
         </form>
    
 
 <%
-}
+}}
 %>
-
+<script src="${pageContext.request.contextPath}/js/management_script.js" defer></script>
 
 </body>
 </html>

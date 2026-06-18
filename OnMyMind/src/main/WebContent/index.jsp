@@ -11,7 +11,7 @@
 
 <nav>
 <ul>
-<li id="logo"><img src="images/OnMyMindLogo.png" width=100></li>
+<li id="logo"><img src="${pageContext.request.contextPath}/images/OnMyMindLogo.png" width=100></li>
 <li>HOME</li>
 <li>COLLEZIONE</li>
 <li id="cerca">CERCA</li>

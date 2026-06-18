@@ -34,12 +34,17 @@ public class CategoryServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		String action= request.getParameter("action");
 		
-		
+		if(action == null || action.isBlank())
+			return;
+			
 		switch(action) {
 	
+		case "insert": {
+			doInsert(request);
+		}
+		break;
 		case "modify": {
 			doModify(request);
 		}
@@ -72,6 +77,15 @@ public class CategoryServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	public void doInsert(HttpServletRequest request) {
+	
+		Categoria c = new Categoria();
+		
+		c.setNomeCategoria(request.getParameter("nuovo_nome_categoria"));
+		c.setDescrizione(request.getParameter("nuova_descrizione_categoria"));
+		
+		cat.insert(c);
+	}
 	
 	public void doModify(HttpServletRequest request) {
 		
@@ -79,8 +93,15 @@ public class CategoryServlet extends HttpServlet {
 		
 		Categoria c = cat.getById(id);
 		
-		c.setNomeCategoria(request.getParameter("nome_categoria"));
-		c.setDescrizione(request.getParameter("descrizione_categoria"));
+		String nome_categoria = request.getParameter("nome_categoria" + id);
+		if(nome_categoria != null && !nome_categoria.isBlank())
+			c.setNomeCategoria(nome_categoria);
+		String descrizione_categoria = request.getParameter("descrizione_categoria" + id);
+		if(descrizione_categoria != null && !descrizione_categoria.isBlank())
+			c.setDescrizione(descrizione_categoria);
+		
+		System.out.println("guardaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+id);
+
 		
 		cat.update(c);
 		

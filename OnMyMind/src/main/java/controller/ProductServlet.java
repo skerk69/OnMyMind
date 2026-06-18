@@ -6,9 +6,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.Part;
 import model.Cappello;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,7 +27,6 @@ public class ProductServlet extends HttpServlet {
 	
 	private CappelloDAO cap = new CappelloDAO();
 	private CategoriaDAO cat = new CategoriaDAO();
-	private Categoria categoria = null;
 	
     public ProductServlet() {
         super();
@@ -87,19 +87,20 @@ public class ProductServlet extends HttpServlet {
 		String colore= request.getParameter("colore");
 		String materiale= request.getParameter("materiale");
 		int quantita= Integer.parseInt(request.getParameter("quantita"));
-		String immagine= request.getParameter("immagine");
-
+		Part immagine;
+		String fileName="";
+		try {
+			immagine = request.getPart("immagine");
+			fileName = immagine.getSubmittedFileName();
+			String uploadPath = getServletContext().getRealPath("/images") + File.separator + fileName;
+	        immagine.write(uploadPath);
+		} catch (IOException | ServletException e) {
+			return;
+		}
 		
 		Cappello c = new Cappello();
-		
-		if(id_categoria == 0) {
-			categoria = new Categoria();
-			categoria.setNomeCategoria(request.getParameter("nome_categoria"));
-			categoria.setDescrizione(request.getParameter("descrizione_categoria"));
-			cat.insert(categoria);
-		}else {
-			categoria = cat.getById(id_categoria);
-		}
+	
+		Categoria categoria = cat.getById(id_categoria);
 		
 		c.setCategoria(categoria);
 		c.setNome(nome);
@@ -109,7 +110,7 @@ public class ProductServlet extends HttpServlet {
 		c.setColore(colore);
 		c.setMateriale(materiale);
 		c.setQuantitaMagazzino(quantita);
-		c.setImmagine(immagine);
+		c.setImmagine(fileName);
 		
 		cap.insert(c);
 
@@ -120,14 +121,28 @@ public class ProductServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Cappello c = cap.getById(id);
-				
-		if(!request.getParameter("nome"+ c.getId_cappello()).isBlank())
-			c.setNome(request.getParameter("nome"+ c.getId_cappello()));
-		if(!request.getParameter("descrizione"+ c.getId_cappello()).isBlank())
-			c.setDescrizione(request.getParameter("descrizione"+ c.getId_cappello()));
+		
+		String id_categoriaStr = request.getParameter("id_categoria" + c.getId_cappello());
+		if(id_categoriaStr != null && !id_categoriaStr.isBlank()) {
+			int id_categoria;
+			try{
+			id_categoria = Integer.parseInt(id_categoriaStr);
+			}catch (Exception e) {
+			id_categoria = c.getCategoria().getId_categoria();
+			}
+			Categoria categoria = cat.getById(id_categoria);
+			c.setCategoria(categoria);
+		}
+			
+		String nome = request.getParameter("nome"+ c.getId_cappello());
+		if(nome != null && !nome.isBlank())
+			c.setNome(nome);
+		String descrizione = request.getParameter("descrizione"+ c.getId_cappello());
+		if(descrizione != null && !descrizione.isBlank())
+			c.setDescrizione(descrizione);
 		
 		String prezzoStr = request.getParameter("prezzo"+ c.getId_cappello());
-		if(!prezzoStr.isBlank()) {
+		if(prezzoStr != null && !prezzoStr.isBlank()) {
 			double prezzo;
 			try{
 			prezzo= Double.parseDouble(prezzoStr);
@@ -136,16 +151,18 @@ public class ProductServlet extends HttpServlet {
 			}
 			c.setPrezzo(prezzo);
 		}
-		
-		if(!request.getParameter("taglia"+ c.getId_cappello()).isBlank())
-			c.setTaglia(request.getParameter("taglia"+ c.getId_cappello()));
-		if(!request.getParameter("colore"+ c.getId_cappello()).isBlank())
-			c.setColore(request.getParameter("colore"+ c.getId_cappello()));
-		if(!request.getParameter("materiale"+ c.getId_cappello()).isBlank())
-			c.setMateriale(request.getParameter("materiale"+ c.getId_cappello()));
+		String taglia = request.getParameter("taglia"+ c.getId_cappello());
+		if(taglia != null && !taglia.isBlank())	
+			c.setTaglia(taglia);
+		String colore = request.getParameter("colore"+ c.getId_cappello());
+		if(colore != null && !colore.isBlank())
+			c.setColore(colore);
+		String materiale = request.getParameter("materiale"+ c.getId_cappello());
+		if(materiale != null && !materiale.isBlank())
+			c.setMateriale(materiale);
 
 		String quantitaStr = request.getParameter("quantita"+ c.getId_cappello());
-		if(!quantitaStr.isBlank()) {
+		if(quantitaStr != null && !quantitaStr.isBlank()) {
 			int quantita;
 			try{
 			quantita= Integer.parseInt(quantitaStr);
@@ -154,16 +171,48 @@ public class ProductServlet extends HttpServlet {
 			}
 			c.setQuantitaMagazzino(quantita);
 		}
+
+		try {
+			Part immagine = request.getPart("immagine" + c.getId_cappello());
+
+			if (immagine != null && immagine.getSize() > 0) {
+
+				String fileName = immagine.getSubmittedFileName();
+				String uploadPath = getServletContext().getRealPath("/images") + File.separator + fileName;
 		
-		if(!request.getParameter("immagine"+ c.getId_cappello()).isBlank())
-			c.setImmagine(request.getParameter("immagine"+ c.getId_cappello()));
+				String vecchiaImmagine = c.getImmagine();
+			    if (vecchiaImmagine != null && !vecchiaImmagine.isEmpty()) {
+			        File vecchioFile = new File(getServletContext().getRealPath("/images") + File.separator + vecchiaImmagine);
+			        if (vecchioFile.exists()) {
+			            vecchioFile.delete();
+			        }
+			    }
+			    immagine.write(uploadPath); 
+			    c.setImmagine(fileName);
+			}
+	        
+		} catch (IOException | ServletException e) {
+			return;
+		}
 		
+
 		cap.update(c);
+		
 	}
 	
 	public void doDelete(HttpServletRequest request) {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
+		
+		Cappello c = cap.getById(id);
+		
+		String img = c.getImmagine();
+	    if (img != null && !img.isEmpty()) {
+	        File imgFile = new File(getServletContext().getRealPath("/images") + File.separator + img);
+	        if (imgFile.exists()) {
+	            imgFile.delete();
+	        }
+	    }
 		
 		cap.delete(id);
 		
