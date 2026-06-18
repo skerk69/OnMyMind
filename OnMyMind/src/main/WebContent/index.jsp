@@ -1,3 +1,6 @@
+<%@page import="model.Categoria"%>
+<%@page import="model.Cappello"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,26 +11,46 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+<!-- trasferire l'intero nav in un file a parte e linkarlo in tutte le pagine -->
 <nav>
 <ul>
 <li id="logo"><img src="${pageContext.request.contextPath}/images/OnMyMindLogo.png" width=100></li>
-<li>HOME</li>
-<li>COLLEZIONE</li>
+<li id="home"><a href="${pageContext.request.contextPath}/home">HOME</a></li>
+<li id="collezione">COLLEZIONE</li>
 <li id="cerca">CERCA</li>
-<li><a href="${pageContext.request.contextPath}/login">LOGIN</a></li>
+<li id="login"><a href="${pageContext.request.contextPath}/loginpage">LOGIN</a></li>
 </ul>
 </nav>
 
 
-<p>
+<% 
+ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappelli");
+ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("categorie");
 
+for(Cappello c : listCap){
+%>
 
-<p>
-<% for(int i=0; i<10; i++) { %>
+    	<img src="${pageContext.request.contextPath}/images/<%= c.getImmagine() %>" width=100><br>
+        <%= c.getNome() %> - <%= c.getPrezzo() + "$" %><br>
+    	<%  Categoria ct = c.getCategoria();
+    	if(!listCat.isEmpty()){
+    		for (Categoria cat : listCat) {  
+    			if(cat.getId_categoria() == ct.getId_categoria()){
+    			%>
+    				Categoria: <%= cat.getNomeCategoria() %><br>
+    	<% }}} %>
+    	<%= c.getTaglia() %>, <%= c.getColore() %>, <%= c.getMateriale() %>, <%= c.getQuantitaMagazzino() %> <br>
+        <%= c.getDescrizione() %><br>
 
-prodotto <br>
 
 <% } %>
+
+
+
+
+
+
+
+
 </body>
 </html>

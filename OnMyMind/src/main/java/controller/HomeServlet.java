@@ -5,23 +5,26 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Utente;
+import model.Cappello;
+import model.Categoria;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.UtenteDAO;
+import dao.CappelloDAO;
+import dao.CategoriaDAO;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class HomeServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/home")
+public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	private UtenteDAO user = new UtenteDAO();
 	
-    public LoginServlet() {
+	private CategoriaDAO cat = new CategoriaDAO();
+	private CappelloDAO cap = new CappelloDAO();
+	
+    public HomeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +34,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Utente> listUser = user.getAll();
+		ArrayList<Categoria> listcat = cat.getAll();
+	    request.setAttribute("categorie", listcat);
 		
-		
-		
-		
-		request.setAttribute("utenti", listUser);
-		
-        request.getRequestDispatcher("/WEB-INF/view/login.jsp")
-        .forward(request, response);
+		ArrayList<Cappello> listcap = cap.getAll();
+	    request.setAttribute("cappelli", listcap);
+	    
+		request.getRequestDispatcher("index.jsp")
+		.forward(request, response);		
 	}
 
 	/**

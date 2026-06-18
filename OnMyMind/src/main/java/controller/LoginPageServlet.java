@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import dao.UtenteDAO;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LoginPageServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/loginpage")
+public class LoginPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private UtenteDAO user = new UtenteDAO();
 	
-    public LoginServlet() {
+    public LoginPageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,13 +33,12 @@ public class LoginServlet extends HttpServlet {
 		
 		ArrayList<Utente> listUser = user.getAll();
 		
-		
-		
-		
 		request.setAttribute("utenti", listUser);
 		
         request.getRequestDispatcher("/WEB-INF/view/login.jsp")
         .forward(request, response);
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
