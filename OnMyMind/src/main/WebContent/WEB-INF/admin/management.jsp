@@ -111,10 +111,17 @@ for (Cappello c : listCap) {
 %>
 
     <p>
+
     	<img src="${pageContext.request.contextPath}/images/<%= c.getImmagine() %>" width=100><br>
         <%= c.getNome() %> - <%= c.getPrezzo() + "$" %><br>
-        Categoria: <%= c.getCategoria().getNomeCategoria() %><br>
-        <%= c.getTaglia() %>, <%= c.getColore() %>, <%= c.getMateriale() %>, <%= c.getQuantitaMagazzino() %> <br>
+    	<%  Categoria ct = c.getCategoria();
+    	if(!listCat.isEmpty()){
+    		for (Categoria cat : listCat) {  
+    			if(cat.getId_categoria() == ct.getId_categoria()){
+    			%>
+    				Categoria: <%= cat.getNomeCategoria() %><br>
+    	<% }}} %>
+    	<%= c.getTaglia() %>, <%= c.getColore() %>, <%= c.getMateriale() %>, <%= c.getQuantitaMagazzino() %> <br>
         <%= c.getDescrizione() %>
 
         <form action="${pageContext.request.contextPath}/product" method="post" enctype="multipart/form-data">
