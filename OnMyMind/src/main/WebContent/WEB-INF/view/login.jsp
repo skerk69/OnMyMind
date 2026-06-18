@@ -10,12 +10,19 @@
 </head>
 <body>
 
-<% ArrayList<Utente> listUser = (ArrayList<Utente>) request.getAttribute("utenti"); %>
-
 <form action="${pageContext.request.contextPath}/login" method="post">
-	<input type="text" name="username">
+	<label> Email:
+	<input type="text" name="email">
+	</label>
+	<label> Password:
 	<input type="password" name="password">
+	</label><br>
+	<button type="submit" name="action" value="login">Accedi</button>
+	<button type="submit" name="action" value="register">Registrati</button>
 </form>
+
+
+
 <!-- da spostare successivamente -->
 <a href="${pageContext.request.contextPath}/management">accedi alla lista prodotti</a>
 

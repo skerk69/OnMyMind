@@ -5,10 +5,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Utente;
+import model.Utente.Ruolo;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
+import com.mysql.cj.Session;
 
 import dao.UtenteDAO;
 
@@ -31,15 +37,31 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Utente> listUser = user.getAll();
+		String action = request.getParameter("action");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		switch(action) {
+		case "login": {
+			doLogin(email, password, request, response);
+		}
+		break;
+		case "register": {
+			
+			request.setAttribute("email", email);
+			request.setAttribute("password", password);
+			
+			request.getRequestDispatcher("/WEB-INF/view/registration.jsp")
+					.forward(request, response);
+		}
+		break;
+		default: request.getRequestDispatcher("/WEB-INF/view/login.jsp")
+        			.forward(request, response);
+		}
 		
 		
+
 		
-		
-		request.setAttribute("utenti", listUser);
-		
-        request.getRequestDispatcher("/WEB-INF/view/login.jsp")
-        .forward(request, response);
 	}
 
 	/**
@@ -50,4 +72,53 @@ public class LoginServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	
+	public void doLogin(String email, String password, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Ruolo ruolo;
+
+		Utente u = user.login(email, password);	
+		
+		if(u == null) {
+			ruolo = null;
+		}else {
+			ruolo = u.getRuolo();
+		}
+		
+		HttpSession session = request.getSession();
+
+		if(ruolo.equals(Ruolo.ADMIN)) {
+			
+			session.setAttribute("ruolo", ruolo);
+			
+	        request.getRequestDispatcher("/WEB-INF/admin/management.jsp")
+	        .forward(request, response);
+	        
+		}else if(ruolo.equals(Ruolo.UTENTE)) {
+			
+			session.setAttribute("ruolo", ruolo);
+			
+	        request.getRequestDispatcher("/WEB-INF/view/index.jsp")
+	        .forward(request, response);
+		}else {
+	        request.getRequestDispatcher("/WEB-INF/view/login.jsp")
+	        .forward(request, response);
+		}
+	}
+	
+
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

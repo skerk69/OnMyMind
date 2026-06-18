@@ -19,6 +19,7 @@
 <li id="collezione">COLLEZIONE</li>
 <li id="cerca">CERCA</li>
 <li id="login"><a href="${pageContext.request.contextPath}/loginpage">LOGIN</a></li>
+<li id="account">ACCOUNT</li>
 </ul>
 </nav>
 
@@ -48,7 +49,11 @@ for(Cappello c : listCap){
 
 
 
+<script>
+const ruolo = request.getAttribute();
 
+
+</script>
 
 
 

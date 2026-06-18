@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Utente;
+import model.Utente.Ruolo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,14 +32,25 @@ public class LoginPageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Utente> listUser = user.getAll();
+		//ArrayList<Utente> listUser = user.getAll();
 		
-		request.setAttribute("utenti", listUser);
+		//request.setAttribute("utenti", listUser);
 		
-        request.getRequestDispatcher("/WEB-INF/view/login.jsp")
-        .forward(request, response);
+		String ruoloStr = request.getParameter("ruolo");
 		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		Ruolo ruolo = null;
+		
+		if(ruoloStr.equals("admin")) {
+			ruolo = Ruolo.ADMIN;
+		}else if(ruoloStr.equals("utente")) {
+			ruolo = Ruolo.UTENTE;
+		}
+		
+			request.setAttribute("ruolo", ruolo);
+	    
+			request.getRequestDispatcher("/WEB-INF/view/profile") //da fare
+	        .forward(request, response);
+		
 	}
 
 	/**
