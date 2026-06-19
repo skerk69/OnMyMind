@@ -86,10 +86,10 @@ for (Categoria c : listCat) {
         <form action="${pageContext.request.contextPath}/category" method="post">
         
             <label class="classeCategoria"> Nome Categoria:
-            <input type="text" name="nome_categoria<%= c.getId_categoria() %>" class="classeCategoria"><br class="classeCategoria">
+            <input type="text" name="nome_categoria<%= c.getId_categoria() %>" class="classeCategoria" value="<%= c.getNomeCategoria() %>"><br class="classeCategoria">
 			</label>
 			<label class="classeCategoria"> Descrizione Categoria:
-			<textarea name="descrizione_categoria<%= c.getId_categoria() %>" class="classeCategoria"></textarea><br class="classeCategoria">
+			<textarea name="descrizione_categoria<%= c.getId_categoria() %>" class="classeCategoria"><%= c.getDescrizione() %></textarea><br class="classeCategoria">
         	</label>
             <input type="hidden" name="id_categoria" value="<%= c.getId_categoria() %>">
             <button type="button" class="modificaCategoria" onclick="showModifyCategoria(this)">Modifica</button>
@@ -139,32 +139,32 @@ for (Cappello c : listCap) {
     			%>
             </select><br>
                 <label class="classeCappello"> Nome:
-                <input type="text" name="nome<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+                <input type="text" name="nome<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getNome() %>"><br class="classeCappello">
                 </label>	    
  			    <label class="classeCappello"> Prezzo:
- 			    <input type="text" name="prezzo<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+ 			    <input type="text" name="prezzo<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getPrezzo() %>"><br class="classeCappello">
     			</label>
     			<label class="classeCappello"> Taglia:
-    			<input type="text" name="taglia<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			<input type="text" name="taglia<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getTaglia() %>"><br class="classeCappello">
     			 </label>
     			<label class="classeCappello"> Colore:
-    			<input type="text" name="colore<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			<input type="text" name="colore<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getColore() %>"><br class="classeCappello" >
     			 </label>
     			<label class="classeCappello"> Materiale:
-    			<input type="text" name="materiale<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			<input type="text" name="materiale<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getMateriale() %>"><br class="classeCappello">
     			 </label>
     			<label class="classeCappello"> Quantità:
-    			<input type="text" name="quantita<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
+    			<input type="text" name="quantita<%= c.getId_cappello() %>" class="classeCappello" value="<%= c.getQuantitaMagazzino() %>"><br class="classeCappello">
     			</label>
     			<label class="classeCappello"> Immagine:
     			<input type="file" name="immagine<%= c.getId_cappello() %>" class="classeCappello"><br class="classeCappello">
              	</label>
              	<label class="classeCappello"> Descrizione:
-				<textarea  name="descrizione<%= c.getId_cappello() %>" class="classeCappello"></textarea><br class="classeCappello">
+				<textarea  name="descrizione<%= c.getId_cappello() %>" class="classeCappello"><%= c.getDescrizione() %></textarea><br class="classeCappello">
 				</label>
-            <button type="button" class="modificaCappello" onclick="showModifyCappello(this)">Modifica</button>
+             <button type="button" class="modificaCappello" onclick="showModifyCappello(this)">Modifica</button>
              <button type="submit" name="action" class="confermaCappello" value="modify">Conferma Modifiche</button>
-            <button type="submit" name="action" value="delete">Elimina</button>
+             <button type="submit" name="action" value="delete">Elimina</button>
         </form>
    
 

@@ -70,6 +70,64 @@ public class IndirizzoDAO {
         return list;
     }
 
+    public Indirizzo getById(int idIndirizzo) {
+
+        String sql = "SELECT * FROM indirizzo WHERE id_indirizzo=?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idIndirizzo);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                Indirizzo i = new Indirizzo();
+
+                i.setId_indirizzo(rs.getInt("id_indirizzo"));
+                i.setVia(rs.getString("via"));
+                i.setCitta(rs.getString("citta"));
+                i.setCap(rs.getString("cap"));
+                i.setProvincia(rs.getString("provincia"));
+                i.setPaese(rs.getString("paese"));
+
+                Utente u = new Utente();
+                u.setId_utente(rs.getInt("id_utente"));
+                i.setUtente(u);
+
+                return i;
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+    
+    public boolean update(Indirizzo indirizzo) {
+        
+        String sql = "UPDATE indirizzo SET paese = ?, provincia = ?, cap = ?, citta = ?, via = ?, id_utente = ? WHERE id_indirizzo = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, indirizzo.getPaese()); 
+            ps.setString(2, indirizzo.getProvincia());
+            ps.setString(3, indirizzo.getCap());
+            ps.setString(4, indirizzo.getCitta());
+            ps.setString(5, indirizzo.getVia());
+            ps.setInt(6, indirizzo.getUtente().getId_utente());
+            ps.setInt(7, indirizzo.getId_indirizzo());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Errore update indirizzo", e);
+        }
+    }
+    
     public boolean delete(int id) {
 
         String sql = "DELETE FROM indirizzo WHERE id_indirizzo=?";

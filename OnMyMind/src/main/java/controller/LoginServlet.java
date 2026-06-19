@@ -37,6 +37,16 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.getRequestDispatcher("/loginpage")
+		.forward(request, response);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String action = request.getParameter("action");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -59,17 +69,6 @@ public class LoginServlet extends HttpServlet {
         			.forward(request, response);
 		}
 		}
-		
-
-		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 	
@@ -90,6 +89,9 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			session.setAttribute("ruolo", ruolo);
+			
+			u = user.getById(u.getId_utente());
+			
 			session.setAttribute("utente", u);
 			
 			if(ruolo.equals(Ruolo.ADMIN)) {

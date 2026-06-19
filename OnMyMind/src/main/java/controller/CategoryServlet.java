@@ -32,8 +32,25 @@ public class CategoryServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		
+		ArrayList<Categoria> listcat = cat.getAll();
+	    request.setAttribute("categorie", listcat);
+		
+		ArrayList<Cappello> listcap = cap.getAll();
+	    request.setAttribute("cappelli", listcap);
+	    
+		request.getRequestDispatcher("/WEB-INF/admin/management.jsp")
+		.forward(request, response);
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String action= request.getParameter("action");
 		
 		if(action == null || action.isBlank())
@@ -56,24 +73,6 @@ public class CategoryServlet extends HttpServlet {
 		default: 
 		}
 		
-		
-		ArrayList<Categoria> listcat = cat.getAll();
-	    request.setAttribute("categorie", listcat);
-		
-		ArrayList<Cappello> listcap = cap.getAll();
-	    request.setAttribute("cappelli", listcap);
-	    
-		request.getRequestDispatcher("/WEB-INF/admin/management.jsp")
-		.forward(request, response);
-		
-		
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

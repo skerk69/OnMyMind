@@ -25,9 +25,6 @@ import model.Categoria;
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private CappelloDAO cap = new CappelloDAO();
-	private CategoriaDAO cat = new CategoriaDAO();
-	
     public ProductServlet() {
         super();
         // TODO Auto-generated constructor stub
@@ -38,23 +35,8 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String action= request.getParameter("action");
-			
-		switch(action) {
-		case "insert":  {
-			doInsert(request);
-		}
-		break;
-		case "modify": {
-			doModify(request);
-		}
-		break;
-		case "delete": {
-			doDelete(request);
-		}
-		break;
-		default:
-		}
+		CappelloDAO cap = new CappelloDAO();
+		CategoriaDAO cat = new CategoriaDAO();
 		
 		ArrayList<Categoria> listcat = cat.getAll();
 	    request.setAttribute("categorie", listcat);
@@ -71,13 +53,33 @@ public class ProductServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String action= request.getParameter("action");
+		
+		switch(action) {
+		case "insert":  {
+			doInsert(request);
+		}
+		break;
+		case "modify": {
+			doModify(request);
+		}
+		break;
+		case "delete": {
+			doDelete(request);
+		}
+		break;
+		default:;
+		}
+		
+		response.sendRedirect(request.getContextPath() + "/product");
 	}
 
 	
 	public void doInsert(HttpServletRequest request) {
-		
+	
+		CappelloDAO cap = new CappelloDAO();
+		CategoriaDAO cat = new CategoriaDAO();		
 		
 		int id_categoria = Integer.parseInt(request.getParameter("id_categoria"));
 		String nome= request.getParameter("nome");
@@ -118,6 +120,9 @@ public class ProductServlet extends HttpServlet {
 	
 	public void doModify(HttpServletRequest request) {
 
+		CappelloDAO cap = new CappelloDAO();
+		CategoriaDAO cat = new CategoriaDAO();		
+		
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Cappello c = cap.getById(id);
@@ -201,6 +206,9 @@ public class ProductServlet extends HttpServlet {
 	}
 	
 	public void doDelete(HttpServletRequest request) {
+		
+		CappelloDAO cap = new CappelloDAO();
+		CategoriaDAO cat = new CategoriaDAO();		
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		

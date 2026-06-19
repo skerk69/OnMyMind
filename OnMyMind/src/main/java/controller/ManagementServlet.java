@@ -22,9 +22,6 @@ import dao.CategoriaDAO;
 public class ManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private CappelloDAO cap = new CappelloDAO(); 
-	private CategoriaDAO cat= new CategoriaDAO();
-	
 	public ManagementServlet() {
         super();
         // TODO Auto-generated constructor stub
@@ -34,6 +31,9 @@ public class ManagementServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		CappelloDAO cap = new CappelloDAO(); 
+		CategoriaDAO cat= new CategoriaDAO();
 		
 		ArrayList<Cappello> listCap = cap.getAll();
 		ArrayList<Categoria> listCat = cat.getAll();
