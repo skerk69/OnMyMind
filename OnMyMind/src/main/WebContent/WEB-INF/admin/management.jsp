@@ -171,6 +171,27 @@ for (Cappello c : listCap) {
 <%
 }}
 %>
+
+<!-- fare elenco ordini  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="${pageContext.request.contextPath}/js/management_script.js" defer></script>
 
 </body>

@@ -12,7 +12,7 @@
 
 <form action="${pageContext.request.contextPath}/login" method="post">
 	<label> Email:
-	<input type="text" name="email">
+	<input type="email" name="email">
 	</label>
 	<label> Password:
 	<input type="password" name="password">

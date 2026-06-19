@@ -90,6 +90,7 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			session.setAttribute("ruolo", ruolo);
+			session.setAttribute("utente", u);
 			
 			if(ruolo.equals(Ruolo.ADMIN)) {
 				request.getRequestDispatcher("/management")
