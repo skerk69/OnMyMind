@@ -19,7 +19,7 @@ ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappel
 for(Cappello c : listCap){
 %>
 
-		<a href="${pageContext.request.contextPath}/openproduct?id=${prodotto.id}">
+		<a href="${pageContext.request.contextPath}/openproduct?id=<%= c.getId_cappello() %>">
     	<img src="${pageContext.request.contextPath}/images/<%= c.getImmagine() %>" width=100><br>
         <%= c.getNome() %><br>
     	</a>

@@ -5,7 +5,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Cappello;
+import model.Categoria;
+import model.Recensione;
+
 import java.io.IOException;
+import java.util.ArrayList;
+
+import dao.CappelloDAO;
+import dao.CategoriaDAO;
+import dao.RecensioneDAO;
 
 /**
  * Servlet implementation class OpenProductServlet
@@ -28,18 +37,27 @@ public class OpenProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String idStr = request.getParameter("id");
-		
 		if(idStr != null && !idStr.isBlank()) {
 			
 			int id = Integer.parseInt(idStr);
 			
-			request.setAttribute("id", id);
+			CappelloDAO capdao = new CappelloDAO();
+			CategoriaDAO catdao = new CategoriaDAO();
+			RecensioneDAO rdao = new RecensioneDAO();
+
+			Cappello cap = capdao.getById(id);
+			Categoria cat = catdao.getById(cap.getCategoria().getId_categoria());
+			ArrayList<Recensione> rec = rdao.getByCappello(id);
 			
+			request.setAttribute("cappello", cap);
+			request.setAttribute("categoria", cat);
+			request.setAttribute("recensioni", rec);
+			 
 			request.getRequestDispatcher("/WEB-INF/view/product.jsp")
 				.forward(request, response);
 			
 		}else {
-		
+			
 		response.sendRedirect(request.getContextPath() + "/collection");
 		
 		}

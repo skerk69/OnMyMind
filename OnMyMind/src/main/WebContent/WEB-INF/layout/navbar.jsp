@@ -7,6 +7,7 @@
 <li id="login"><a href="${pageContext.request.contextPath}/loginpage">LOGIN</a></li> <!-- accessibile solo se non loggato(ruolo==null), da fare con javascript -->
 <li id="profile"><a href="${pageContext.request.contextPath}/profile">PROFILO</a></li> <!-- accessibile solo se loggato(ruolo!=null), da fare con javascript -->
 <li id="management"><a href="${pageContext.request.contextPath}/management">MANAGEMENT</a></li> <!-- accessiibile solo se admin(ruolo!=null && ruolo = Ruolo.ADMIN) -->
+<li id="cart"><a href="${pageContext.request.contextPath}/cartpage"></a></li>
 </ul>
 <%
 String ruolo = (String) session.getAttribute("ruolo");
