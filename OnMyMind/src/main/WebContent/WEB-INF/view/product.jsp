@@ -9,8 +9,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Singolo prodotto</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 <%
 Cappello cap = (Cappello) request.getAttribute("cappello"); 
