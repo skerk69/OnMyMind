@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
 		
 			HttpSession session = request.getSession();
 
-			session.setAttribute("ruolo", ruolo);
+			session.setAttribute("ruolo", ruolo.getDbValue());
 			
 			u = user.getById(u.getId_utente());
 			

@@ -8,7 +8,13 @@
 <li id="profile"><a href="${pageContext.request.contextPath}/profile">PROFILO</a></li> <!-- accessibile solo se loggato(ruolo!=null), da fare con javascript -->
 <li id="management"><a href="${pageContext.request.contextPath}/management">MANAGEMENT</a></li> <!-- accessiibile solo se admin(ruolo!=null && ruolo = Ruolo.ADMIN) -->
 </ul>
+<%
+String ruolo = (String) session.getAttribute("ruolo");
+if(ruolo != null && !ruolo.isBlank()){
+%>
+<input type="hidden" id="ruolo" value="<%= ruolo %>">
+<% } %>
 </nav>
 
 
-<script></script>
+<script src="${pageContext.request.contextPath}/js/navbar_script.js" defer></script>
