@@ -38,14 +38,26 @@ Utente u = (Utente) session.getAttribute("utente");
 
 <form action="${pageContext.request.contextPath}/profile" method="post">
 	<label>
-	<input type="text" name="indirizzo0">
+	<input type="text" name="paese0">
+	</label>
+	<label>
+	<input type="text" name="provincia0">
+	</label>
+	<label>
+	<input type="text" name="cap0">
+	</label>
+	<label>
+	<input type="text" name="citta0">
+	</label>
+	<label>
+	<input type="text" name="via0">
 	</label>
 	<button onclick="addAddress()">+</button> <!-- da fare -->
 	<button type="submit" name="action" value="insert">+</button> <!-- da fare -->
 
 </form>
 
-
+<!-- aggiungi controllo javascript che i campi non siano vuoti prima di premere pulsante, se lo sono lo metti disabled -->
 
 </body>
 </html>
