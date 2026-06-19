@@ -29,20 +29,6 @@ public class LoginPageServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		/*
-		String ruoloStr = request.getParameter("ruolo");
-		
-		Ruolo ruolo = null;
-		if(ruoloStr != null) {
-
-			if(ruoloStr.equals("admin")) {
-				ruolo = Ruolo.ADMIN;
-			}else if(ruoloStr.equals("utente")) {
-				ruolo = Ruolo.UTENTE;
-			}
-		}
-		*/
 	    
 			request.getRequestDispatcher("/WEB-INF/view/login.jsp") 
 	        .forward(request, response);

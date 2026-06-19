@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.Cappello" %>
+<%@ page import="model.Categoria" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <title>Management Page</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="model.Cappello" %>
-<%@ page import="model.Categoria" %>
 <h2>Aggiungi Cappello</h2>
 
 <form action="${pageContext.request.contextPath}/product" method="post" enctype="multipart/form-data">

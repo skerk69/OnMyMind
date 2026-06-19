@@ -8,8 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Profilo</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/layout/navbar.jsp"/>
+
 <%
 ArrayList<Utente> listUtenti = (ArrayList<Utente>) request.getAttribute("utenti");
 Utente u = (Utente) session.getAttribute("utente");
@@ -39,7 +42,7 @@ Utente u = (Utente) session.getAttribute("utente");
 
 <form action="${pageContext.request.contextPath}/profile" method="post">
 	
-	<% ArrayList<Indirizzo> listAddress = (ArrayList<Indirizzo>) session.getAttribute("indirizzi");
+	<% ArrayList<Indirizzo> listAddress = (ArrayList<Indirizzo>) request.getAttribute("indirizzi");
 	if(!listAddress.isEmpty()){
 	for(Indirizzo i : listAddress){
 	 %>

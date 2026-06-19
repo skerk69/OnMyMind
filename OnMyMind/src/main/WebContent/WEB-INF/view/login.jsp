@@ -7,8 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Login Page</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 <form action="${pageContext.request.contextPath}/login" method="post">
 	<label> Email:
@@ -22,9 +24,6 @@
 </form>
 
 
-
-<!-- da spostare successivamente -->
-<a href="${pageContext.request.contextPath}/management">accedi alla lista prodotti</a>
 
 </body>
 </html>
