@@ -36,7 +36,7 @@ public class AddReviewServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
 		
-		response.sendRedirect(request.getContextPath() + "openproduct?id=" + id);
+		response.sendRedirect(request.getContextPath() + "/openproduct?id=" + id);
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class AddReviewServlet extends HttpServlet {
 			
 			rdao.insert(r);
 			
-		}		
-		
-		
-		response.sendRedirect(request.getContextPath() + "/addreview");
-
+			response.sendRedirect(request.getContextPath() + "/addreview?id=" + idStr);
+			
+		} else {		
+			response.sendRedirect(request.getContextPath() + "/collection");
+		}
 	}
 
 }
