@@ -20,11 +20,14 @@ Cappello cap = (Cappello) request.getAttribute("cappello");
 Categoria cat = (Categoria) request.getAttribute("categoria");
 ArrayList<Recensione> rec = (ArrayList<Recensione>) request.getAttribute("recensioni");
 Utente u = (Utente) session.getAttribute("utente");
-int id = u.getId_utente();
+int id = 0;
+if(u != null){
+	id = u.getId_utente();
+}
 %>
 
     	<img src="${pageContext.request.contextPath}/images/<%= cap.getImmagine() %>" width=100><br>
-        <%= cap.getNome() %> - <%= cap.getPrezzo() + "$" %><br>
+        <%= cap.getNome() %> - <span class="prezzo"> <%= cap.getPrezzo() %></span>$<br>
     	<%= cat.getNomeCategoria() %><br>
     	<%= cap.getTaglia() %>, <%= cap.getColore() %>, <%= cap.getMateriale() %>, <%= cap.getQuantitaMagazzino() %> <br>
         <%= cap.getDescrizione() %><br>
@@ -39,6 +42,7 @@ int id = u.getId_utente();
     		<button type="submit">Aggiungi al Carrello</button>
 		</form>
 
+	<!-- fare in modo che si possa pubblicare una recensione solo se risulta almeno un ordine dell'utente che contiene il relativo cappello -->
 		<form action="${pageContext.request.contextPath}/addreview" method="post">
 			<label> Voto:
 			<input type="number" id="voto" name="voto"><br>
@@ -47,7 +51,7 @@ int id = u.getId_utente();
 			<textarea id="descrizione" name="descrizione"></textarea><br>
 			</label>
 			<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
-			<button type="submit">Pubblica Recensione</button><br> <!-- fare in modo che si possa pubblicare una recensione solo se risulta almeno un ordine dell'utente e relativo cappello -->
+			<button type="submit">Pubblica Recensione</button><br> 
 		</form>
 
 <%
@@ -68,6 +72,7 @@ if(rec != null && !rec.isEmpty()){
 		<% } %>
 <% }} %>
 
+<script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
 
 </body>
 </html>

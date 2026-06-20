@@ -76,7 +76,7 @@ public class AddCartServlet extends HttpServlet {
 	    
 	    session.setAttribute("carrello", carrello);
 	    
-	    response.sendRedirect(request.getContextPath() + "/openproduct?id=" + id);
+	    response.sendRedirect(request.getContextPath() + "/collection");
 		
 		
 	}

@@ -114,7 +114,7 @@ for (Cappello c : listCap) {
     <p>
 
     	<img src="${pageContext.request.contextPath}/images/<%= c.getImmagine() %>" width=100><br>
-        <%= c.getNome() %> - <%= c.getPrezzo() + "$" %><br>
+        <%= c.getNome() %> - <span class="prezzo"> <%= c.getPrezzo()%> </span>$<br>
     	<%  Categoria ct = c.getCategoria();
     	if(!listCat.isEmpty()){
     		for (Categoria cat : listCat) {  
@@ -194,6 +194,7 @@ for (Cappello c : listCap) {
 
 
 <script src="${pageContext.request.contextPath}/js/management_script.js" defer></script>
+<script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
 
 </body>
 </html>
