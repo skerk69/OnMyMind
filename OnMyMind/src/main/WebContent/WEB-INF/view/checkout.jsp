@@ -12,7 +12,7 @@
 
 <form action="${pageContext.request.contextPath}/order" method="post">
 
-<select id="sceltaIndirizzo">
+<select name="id" id="sceltaIndirizzo">
 <%
 ArrayList<Indirizzo> listAddress = (ArrayList<Indirizzo>) request.getAttribute("indirizzi");
 if(!listAddress.isEmpty()){
@@ -23,16 +23,6 @@ for(Indirizzo i : listAddress){
 <option value="0">Inserisci nuovo indirizzo...</option>
 </select>
 
-<select>
-<option>Carta di Credito</option>
-<option>Paypal</option>
-<option>Altro</option> <!-- fare finto form che cambia in base all'opzione selezionata -->
-</select>
-
-<button type="submit" id="orderButton">Procedi all'acquisto</button>
-</form>
-
-<form action="${pageContext.request.contextPath}/checkout" method="post">
 <span id="nuovo">
 	<label> Paese:
 	<input type="text" name="paese">
@@ -51,6 +41,14 @@ for(Indirizzo i : listAddress){
 	</label>
 	<button type="submit">Inserisci</button>
 </span>
+
+<select>
+<option>Carta di Credito</option>
+<option>Paypal</option>
+<option>Altro</option> <!-- fare finto form che cambia in base all'opzione selezionata -->
+</select>
+
+<button type="submit" id="orderButton">Procedi all'acquisto</button>
 </form>
 
 <script src="${pageContext.request.contextPath}/js/checkout_script.js" defer></script>

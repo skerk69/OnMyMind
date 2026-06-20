@@ -62,38 +62,6 @@ public class CheckoutServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
-		Utente u = (Utente) session.getAttribute("utente");
-		ArrayList<Indirizzo> listaAddress = u.getIndirizzi();
-		IndirizzoDAO idao = new IndirizzoDAO();
-		
-		String paese;
-		String provincia;
-		String cap;
-		String citta;
-		String via;
-										
-		paese = request.getParameter("paese");
-		provincia = request.getParameter("provincia");
-		cap = request.getParameter("cap");
-		citta = request.getParameter("citta");
-		via = request.getParameter("via");
-			
-		if(paese != null && !paese.isBlank() && provincia != null && !provincia.isBlank() && cap != null && !cap.isBlank() && citta != null && !citta.isBlank() && via != null && !via.isBlank() ) {
-			
-				Indirizzo indirizzo= new Indirizzo();	
-				
-				indirizzo.setPaese(paese);
-				indirizzo.setProvincia(provincia);
-				indirizzo.setCap(cap);
-				indirizzo.setCitta(citta);
-				indirizzo.setVia(via);
-				indirizzo.setUtente(u);
-				
-				listaAddress.add(indirizzo);
-				idao.insert(indirizzo);
-		}
-		
 		doGet(request, response);
 	}
 

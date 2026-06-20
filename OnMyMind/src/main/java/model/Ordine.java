@@ -9,7 +9,6 @@ public class Ordine {
 	private double totale;
 	private LocalDateTime data_ordine;
 	private StatoOrdine stato_ordine;
-	private Pagamento pagamento;
 	private ArrayList<DettaglioOrdine> dettagliordini= new ArrayList<DettaglioOrdine>();
 	private Utente utente;
 	
@@ -70,14 +69,6 @@ public class Ordine {
 
 	public void setStato_ordine(StatoOrdine stato_ordine) {
 		this.stato_ordine = stato_ordine;
-	}
-
-	public Pagamento getPagamento() {
-		return pagamento;
-	}
-
-	public void setPagamento(Pagamento pagamento) {
-		this.pagamento = pagamento;
 	}
 
 	public ArrayList<DettaglioOrdine> getDettagliordini() {

@@ -7,10 +7,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.DettaglioOrdine;
+import model.Indirizzo;
+import model.Ordine;
+import model.Ordine.StatoOrdine;
 import model.Utente;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
+
+import dao.IndirizzoDAO;
+import dao.OrdineDAO;
 
 /**
  * Servlet implementation class OrderServlet
@@ -31,8 +38,9 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		response.sendRedirect(request.getContextPath() + "/checkout");
+		
 	}
 
 	/**
@@ -40,15 +48,84 @@ public class OrderServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		IndirizzoDAO idao = new IndirizzoDAO();
+
+		int id = Integer.parseInt(request.getParameter("id"));
+		
+		Indirizzo i = idao.getById(id);
+		
+		if(i == null) {
+			addAddress(request);
+			response.sendRedirect(request.getContextPath() + "/checkout");
+		}else {
+			doOrder(request);
+			response.sendRedirect(request.getContextPath() + "/cartpage");
+		}
+		
+	}
+
+	
+	public void addAddress(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		Utente u = (Utente) session.getAttribute("utente");
+				
+		String paese;
+		String provincia;
+		String cap;
+		String citta;
+		String via;
+										
+		paese = request.getParameter("paese");
+		provincia = request.getParameter("provincia");
+		cap = request.getParameter("cap");
+		citta = request.getParameter("citta");
+		via = request.getParameter("via");
+			
+		if(paese != null && !paese.isBlank() && provincia != null && !provincia.isBlank() && cap != null && !cap.isBlank() && citta != null && !citta.isBlank() && via != null && !via.isBlank() ) {
+			
+				Indirizzo indirizzo= new Indirizzo();	
+				IndirizzoDAO idao = new IndirizzoDAO();
+
+				indirizzo.setPaese(paese);
+				indirizzo.setProvincia(provincia);
+				indirizzo.setCap(cap);
+				indirizzo.setCitta(citta);
+				indirizzo.setVia(via);
+				indirizzo.setUtente(u);
+				
+				idao.insert(indirizzo);
+		}
+	}
+	
+	public void doOrder(HttpServletRequest request) {
+
 		HttpSession session = request.getSession();
 		
 		Utente u = (Utente) session.getAttribute("utente");
 		ArrayList<DettaglioOrdine> cart = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
-		
-		
-		
-		
-		doGet(request, response);
-	}
 
+		Ordine o = new Ordine();
+		o.setStato_ordine(StatoOrdine.IN_ATTESA);
+		o.setDettagliordini(cart);
+		
+		double tot=0;
+		for(DettaglioOrdine d : cart) {
+			tot+= d.getPrezzo_unitario()*d.getQuantita();
+		}
+		o.setTotale(tot);
+		o.setStato_ordine(StatoOrdine.PAGATO);
+
+		OrdineDAO odao = new OrdineDAO();
+		odao.insert(o);
+		
+		cart = new ArrayList<DettaglioOrdine>();
+		
+		session.setAttribute("carrello", cart);
+		
+	}
+	
+	
+	
 }
