@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.CappelloDAO;
+import dao.DettaglioOrdineDAO;
 import dao.OrdineDAO;
 
 /**
@@ -39,7 +40,12 @@ public class OrdersPageServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Utente u = (Utente) session.getAttribute("utente");
 		OrdineDAO odao = new OrdineDAO();
+		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
 		ArrayList<Ordine> olist = odao.getByUtente(u.getId_utente());
+		
+		for(Ordine o : olist) {
+			o.setDettagliordini(ddao.getByOrdine(o.getId_ordine()));
+		}
 		
 		request.setAttribute("ordini", olist);
 		

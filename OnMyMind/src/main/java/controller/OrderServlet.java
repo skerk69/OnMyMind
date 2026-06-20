@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 
+import dao.DettaglioOrdineDAO;
 import dao.IndirizzoDAO;
 import dao.OrdineDAO;
 
@@ -111,6 +112,8 @@ public class OrderServlet extends HttpServlet {
 		o.setDettagliordini(cart);
 		o.setUtente(u);
 		
+		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
+		
 		double tot=0;
 		for(DettaglioOrdine d : cart) {
 			tot+= d.getPrezzo_unitario()*d.getQuantita();
@@ -119,7 +122,14 @@ public class OrderServlet extends HttpServlet {
 		o.setStato_ordine(StatoOrdine.PAGATO);
 
 		OrdineDAO odao = new OrdineDAO();
-		odao.insert(o);
+		o.setStato_ordine(StatoOrdine.CONSEGNATO);
+		o.setId_ordine(odao.insert(o));
+		
+		for(DettaglioOrdine d : cart) {
+			d.setId_ordine(o.getId_ordine());
+			d.setOrdine(o);
+			ddao.insert(d);
+		}
 		
 		cart = new ArrayList<DettaglioOrdine>();
 		
