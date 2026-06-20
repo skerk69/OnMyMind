@@ -5,26 +5,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Cappello;
-import model.Categoria;
+import jakarta.servlet.http.HttpSession;
+import model.DettaglioOrdine;
+import model.Utente;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.CappelloDAO;
-import dao.CategoriaDAO;
-
 /**
- * Servlet implementation class HomeServlet
+ * Servlet implementation class CheckoutServlet
  */
-@WebServlet("/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/checkout")
+public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private CategoriaDAO cat = new CategoriaDAO();
-	private CappelloDAO cap = new CappelloDAO();
-	
-    public HomeServlet() {
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CheckoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,14 +32,18 @@ public class HomeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Categoria> listcat = cat.getAll();
-	    request.setAttribute("categorie", listcat);
+		HttpSession session = request.getSession();
 		
-		ArrayList<Cappello> listcap = cap.getAll();
-	    request.setAttribute("cappelli", listcap);
-	    
-		request.getRequestDispatcher("/WEB-INF/view/index.jsp")
-		.forward(request, response);		
+		ArrayList<DettaglioOrdine> cart = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
+		Utente u = (Utente) session.getAttribute("utente");
+		
+		if(u == null || cart.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/home");
+		}else {
+			request.getRequestDispatcher("/WEB-INF/view/checkout.jsp")
+				.forward(request, response);
+		}
+		
 	}
 
 	/**

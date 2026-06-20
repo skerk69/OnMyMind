@@ -84,12 +84,15 @@ Utente u = (Utente) session.getAttribute("utente");
 	<input type="text" name="via0">
 	</label>
 	<button onclick="addAddress()">+</button> <!-- da fare -->
-	<button type="submit" name="action" value="insertAddress">Inserisci</button> <!-- da fare -->
+	<button type="submit" name="action" value="insertAddress">Inserisci</button>
 
 </form>
 
 <!-- aggiungi controllo javascript che i campi non siano vuoti prima di premere pulsante, se lo sono lo metti disabled, e aggiungi pulsante modifica che apre il menù, come in management -->
 <!-- aggiungere pulsante logout -->
+<form action="${pageContext.request.contextPath}/logout" methos="post">
+<button type="submit">Logout</button>
+</form>
 
 <% session.removeAttribute("indirizzi"); %>
 

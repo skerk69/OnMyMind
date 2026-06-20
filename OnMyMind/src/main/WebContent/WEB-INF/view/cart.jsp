@@ -34,7 +34,9 @@ if(dolist != null && !dolist.isEmpty()){
 <% }} %>
 <br><br>
 Totale: <span class="prezzo"><%= tot %>$</span>
-
+<form action="${pageContext.request.contextPath}/checkout" method="post">
+<button type="submit">Effettua Acquisto</button>
+</form>
 
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>

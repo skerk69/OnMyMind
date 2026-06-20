@@ -5,26 +5,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Cappello;
-import model.Categoria;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import dao.CappelloDAO;
-import dao.CategoriaDAO;
 
 /**
- * Servlet implementation class HomeServlet
+ * Servlet implementation class LogOutServlet
  */
-@WebServlet("/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/logout")
+public class LogOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private CategoriaDAO cat = new CategoriaDAO();
-	private CappelloDAO cap = new CappelloDAO();
-	
-    public HomeServlet() {
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LogOutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,22 +28,21 @@ public class HomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+		HttpSession session = request.getSession(false);
 		
-		ArrayList<Categoria> listcat = cat.getAll();
-	    request.setAttribute("categorie", listcat);
-		
-		ArrayList<Cappello> listcap = cap.getAll();
-	    request.setAttribute("cappelli", listcap);
-	    
-		request.getRequestDispatcher("/WEB-INF/view/index.jsp")
-		.forward(request, response);		
+		if(session != null) {
+			session.invalidate();
+		}
+		response.sendRedirect(request.getContextPath() + "/home");
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
