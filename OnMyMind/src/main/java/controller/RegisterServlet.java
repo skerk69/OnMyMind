@@ -84,7 +84,6 @@ public class RegisterServlet extends HttpServlet {
 		u.setRuolo(Ruolo.UTENTE);
 		
 		user.insertUtente(u);
-		u = user.getById(u.getId_utente());
 				
 		HttpSession session = request.getSession();
 		

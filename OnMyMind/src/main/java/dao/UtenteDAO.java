@@ -14,7 +14,7 @@ public class UtenteDAO {
         String sql = "INSERT INTO utente (nome, cognome, email, password, telefono, ruolo) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, u.getNome());
             ps.setString(2, u.getCognome());
@@ -23,8 +23,21 @@ public class UtenteDAO {
             ps.setString(5, u.getTelefono());
             ps.setString(6, u.getRuolo().getDbValue());
 
-            return ps.executeUpdate() > 0;
-
+            if( ps.executeUpdate() > 0) {
+            	
+            	try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int idGenerato = rs.getInt(1);
+                        
+                        u.setId_utente(idGenerato); 
+                        
+                        return true;
+                    }
+            	}
+            } 
+            
+            return false;
+            
         } catch (Exception e) {
             throw new RuntimeException("Errore insert utente", e);
         }

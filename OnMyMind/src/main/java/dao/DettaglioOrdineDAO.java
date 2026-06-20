@@ -35,36 +35,43 @@ public class DettaglioOrdineDAO {
 
         ArrayList<DettaglioOrdine> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM dettaglio_ordine WHERE id_ordine=?";
+        String sql = "SELECT d.*, c.* FROM dettaglio_ordine d " +
+                     "JOIN cappello c ON d.id_cappello = c.id_cappello " +
+                     "WHERE d.id_ordine = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, idOrdine);
 
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
 
-            while (rs.next()) {
+                    DettaglioOrdine d = new DettaglioOrdine();
 
-                DettaglioOrdine d = new DettaglioOrdine();
+                    d.setId_ordine(rs.getInt("id_ordine"));
+                    d.setId_cappello(rs.getInt("id_cappello"));
+                    d.setQuantita(rs.getInt("quantita"));
+                    d.setPrezzo_unitario(rs.getDouble("prezzo_unitario"));
 
-                d.setId_ordine(rs.getInt("id_ordine"));
-                d.setId_cappello(rs.getInt("id_cappello"));
-                d.setQuantita(rs.getInt("quantita"));
-                d.setPrezzo_unitario(rs.getDouble("prezzo_unitario"));
-
-                Cappello c = new Cappello();
-                c.setId_cappello(rs.getInt("id_cappello"));
-                d.setCappello(c);
-
-                Ordine o = new Ordine();
-                o.setId_ordine(rs.getInt("id_ordine"));
-                d.setOrdine(o);
-
-                list.add(d);
+                    Cappello c = new Cappello();
+                    c.setId_cappello(rs.getInt("id_cappello"));
+                    c.setNome(rs.getString("nome"));
+                    c.setDescrizione(rs.getString("descrizione"));
+                    c.setPrezzo(rs.getDouble("prezzo"));
+                    c.setTaglia(rs.getString("taglia"));
+                    c.setColore(rs.getString("colore"));
+                    c.setMateriale(rs.getString("materiale"));
+                    c.setQuantitaMagazzino(rs.getInt("quantita_magazzino"));
+                    c.setImmagine(rs.getString("immagine"));
+                    
+                    d.setCappello(c);
+                    
+                    list.add(d);
+                }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) { 
             throw new RuntimeException(e);
         }
 

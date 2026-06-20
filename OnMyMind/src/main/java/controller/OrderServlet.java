@@ -59,7 +59,7 @@ public class OrderServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/checkout");
 		}else {
 			doOrder(request);
-			response.sendRedirect(request.getContextPath() + "/cartpage");
+			response.sendRedirect(request.getContextPath() + "/orders");
 		}
 		
 	}
@@ -109,6 +109,7 @@ public class OrderServlet extends HttpServlet {
 		Ordine o = new Ordine();
 		o.setStato_ordine(StatoOrdine.IN_ATTESA);
 		o.setDettagliordini(cart);
+		o.setUtente(u);
 		
 		double tot=0;
 		for(DettaglioOrdine d : cart) {

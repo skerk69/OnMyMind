@@ -11,7 +11,7 @@ public class OrdineDAO {
 
     public int insert(Ordine o) {
 
-        String sql = "INSERT INTO ordine (id_utente, totale, stato_ordine, data_ordine) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO ordine (id_utente, totale, stato_ordine) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -19,7 +19,6 @@ public class OrdineDAO {
             ps.setInt(1, o.getUtente().getId_utente());
             ps.setDouble(2, o.getTotale());
             ps.setString(3, o.getStato_ordine().name().toLowerCase());
-            ps.setTimestamp(4, Timestamp.valueOf(o.getData_ordine()));
 
             ps.executeUpdate();
 

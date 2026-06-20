@@ -6,9 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Checkout</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 <form action="${pageContext.request.contextPath}/order" method="post">
 

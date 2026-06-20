@@ -156,6 +156,32 @@ public class CappelloDAO {
         return list;
     }
 
+    public ArrayList<Cappello> getPurchasedBuUser(int idUtente) {
+        ArrayList<Cappello> listaCappelli = new ArrayList<>();
+        
+        String query = "SELECT DISTINCT c.* FROM ordine o " +
+                       "JOIN dettaglio_ordine d ON o.id_ordine = d.id_ordine " +
+                       "JOIN cappello c ON d.id_cappello = c.id_cappello " +
+                       "WHERE o.id_utente = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            
+            ps.setInt(1, idUtente);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Cappello c = mapRow(rs);
+                    listaCappelli.add(c);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return listaCappelli;
+    }
+    
     private Cappello mapRow(ResultSet rs) throws SQLException {
 
         Cappello c = new Cappello();
