@@ -57,11 +57,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		break;
 		case "register": {
-			request.setAttribute("email", email);
-			request.setAttribute("password", password);
-			
-			request.getRequestDispatcher("/registration")
-					.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/registration");
 		}
 		break;
 		default: { 

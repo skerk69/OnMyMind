@@ -88,7 +88,8 @@ Utente u = (Utente) session.getAttribute("utente");
 
 </form>
 
-<!-- aggiungi controllo javascript che i campi non siano vuoti prima di premere pulsante, se lo sono lo metti disabled -->
+<!-- aggiungi controllo javascript che i campi non siano vuoti prima di premere pulsante, se lo sono lo metti disabled, e aggiungi pulsante modifica che apre il menù, come in management -->
+<!-- aggiungere pulsante logout -->
 
 <% session.removeAttribute("indirizzi"); %>
 

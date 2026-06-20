@@ -34,40 +34,47 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("/login")
-		.forward(request, response);
+		HttpSession session = request.getSession();
+		
+		Utente u = (Utente) session.getAttribute("utente");
+		
+		if(u == null) {
+		
+		request.getRequestDispatcher("/WEB-INF/view/registration.jsp")
+			.forward(request, response);
+	
+		} else {
+		
+		response.sendRedirect(request.getContextPath() + "/loginpage");	
+			
+		}
+		
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-
-		Utente u = user.login(email, password);
 		
-		if(u!=null) {
-			request.getRequestDispatcher("/login")
-				.forward(request, response);
+		if( user.checkEmailExists(email)) {
+			response.sendRedirect(request.getContextPath() + "/login");
 		}else {
-		doRegister(email, password, request, response);
+			doRegister(email, request, response);
 		}
 		
 		
 	}
 
 	
-	public void doRegister(String email, String password, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doRegister(String email, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String telefono = request.getParameter("telefono");
-		
-		Utente u = user.login(email, password);
-		
-		u = new Utente();
+		String password = request.getParameter("password");
+
+		Utente u = new Utente();
 		
 		u.setEmail(email);
 		u.setPassword(password);
@@ -77,12 +84,15 @@ public class RegisterServlet extends HttpServlet {
 		u.setRuolo(Ruolo.UTENTE);
 		
 		user.insertUtente(u);
-		
+		u = user.getById(u.getId_utente());
+				
 		HttpSession session = request.getSession();
-		session.setAttribute("ruolo", Ruolo.UTENTE);
 		
-        request.getRequestDispatcher("/home")
-        .forward(request, response);
+		session.setAttribute("utente", u);
+		
+		session.setAttribute("ruolo", Ruolo.UTENTE.getDbValue());
+		
+        response.sendRedirect(request.getContextPath() + "/home");
 		
 	}
 	
