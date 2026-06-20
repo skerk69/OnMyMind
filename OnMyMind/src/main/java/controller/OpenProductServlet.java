@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Cappello;
 import model.Categoria;
 import model.Recensione;
+import model.Utente;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import dao.CappelloDAO;
 import dao.CategoriaDAO;
 import dao.RecensioneDAO;
+import dao.UtenteDAO;
 
 /**
  * Servlet implementation class OpenProductServlet
@@ -44,10 +46,15 @@ public class OpenProductServlet extends HttpServlet {
 			CappelloDAO capdao = new CappelloDAO();
 			CategoriaDAO catdao = new CategoriaDAO();
 			RecensioneDAO rdao = new RecensioneDAO();
-
+			UtenteDAO udao = new UtenteDAO();
+			
 			Cappello cap = capdao.getById(id);
 			Categoria cat = catdao.getById(cap.getCategoria().getId_categoria());
 			ArrayList<Recensione> rec = rdao.getByCappello(id);
+			
+			for(Recensione r : rec) {
+				r.setUtente(udao.getById(r.getUtente().getId_utente()));
+			}
 			
 			request.setAttribute("cappello", cap);
 			request.setAttribute("categoria", cat);

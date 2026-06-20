@@ -25,6 +25,9 @@ public class DettaglioOrdine {
 	}
 	public void setCappello(Cappello cappello) {
 		this.cappello = cappello;
+		if (cappello != null) {
+            this.id_cappello = cappello.getId_cappello();
+        }
 	}
 	public int getId_cappello() {
 		return id_cappello;
@@ -37,6 +40,9 @@ public class DettaglioOrdine {
 	}
 	public void setOrdine(Ordine ordine) {
 		this.ordine = ordine;
+		if (ordine != null) {
+            this.id_ordine = ordine.getId_ordine();
+        }
 	}
 	public int getId_ordine() {
 		return id_ordine;

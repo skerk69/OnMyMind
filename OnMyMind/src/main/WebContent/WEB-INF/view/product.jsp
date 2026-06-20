@@ -36,9 +36,25 @@ ArrayList<Recensione> rec = (ArrayList<Recensione>) request.getAttribute("recens
     		<button type="submit">Aggiungi al Carrello</button>
 		</form>
 
-		<!-- aggiungere recensioni -->
+		<form action="${pageContext.request.contextPath}/addreview" method="post">
+			<label> Voto:
+			<input type="number" id="voto" name="voto">
+			</label>
+			<label>
+			<textarea id="descrizione" name="descrizione"></textarea>
+			</label>
+			<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
+		</form>
 
-
+<%
+if(rec != null && !rec.isEmpty()){
+		for(Recensione r : rec){
+%>
+		<%= r.getUtente().getNome() + r.getUtente().getCognome() %><br>
+		<%= r.getVoto() %><br>
+		<%= r.getCommento() %><br>
+		
+<% }} %>
 
 
 </body>
