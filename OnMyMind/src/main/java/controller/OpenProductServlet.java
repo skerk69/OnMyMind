@@ -68,7 +68,16 @@ public class OpenProductServlet extends HttpServlet {
 			}else {
 				comprato = false;
 			}
+			
+			boolean recensito;
+			if(u != null) {
+				recensito = rdao.hasReviewed(u.getId_utente(), id);
+			} else {
+				recensito = false;
+			}
+			
 			request.setAttribute("comprato", comprato);
+			request.setAttribute("recensito", recensito);
 			request.setAttribute("cappello", cap);
 			request.setAttribute("categoria", cat);
 			request.setAttribute("recensioni", rec);

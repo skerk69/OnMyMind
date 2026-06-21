@@ -1,3 +1,4 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="model.Utente"%>
 <%@page import="model.Recensione"%>
 <%@page import="java.util.ArrayList"%>
@@ -22,6 +23,7 @@ Categoria cat = (Categoria) request.getAttribute("categoria");
 ArrayList<Recensione> rec = (ArrayList<Recensione>) request.getAttribute("recensioni");
 Utente u = (Utente) session.getAttribute("utente");
 boolean comprato = (boolean) request.getAttribute("comprato"); 
+boolean recensito = (boolean) request.getAttribute("recensito");
 int id = 0;
 if(u != null){
 	id = u.getId_utente();
@@ -39,15 +41,15 @@ if(u != null){
   			<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
     
     		<label for="quantita">Quantità:</label>
-    		<input type="number" id="quantita" name="quantita" value="1" min="1" max="5"><br>
+    		<input type="number" id="quantita" name="quantita" value="1" min="1" max="<%= cap.getQuantitaMagazzino() %>"><br>
     
     		<button type="submit">Aggiungi al Carrello</button>
 		</form>
-
-		<% if(comprato){ %>
+		<br>
+		<% if(comprato && !recensito){ %>
 		<form action="${pageContext.request.contextPath}/addreview" method="post">
 			<label> Voto:
-			<input type="number" id="voto" name="voto"><br>
+			<input type="number" id="voto" name="voto" min="1" max="5"><br>
 			</label>
 			<label>
 			<textarea id="descrizione" name="descrizione"></textarea><br>
@@ -60,9 +62,11 @@ if(u != null){
 if(rec != null && !rec.isEmpty()){
 		for(Recensione r : rec){
 %>
-		<%= r.getUtente().getNome() + r.getUtente().getCognome() %><br>
+		<%= r.getUtente().getNome() + " " + r.getUtente().getCognome() %><br>
 		<%= r.getVoto() %><br>
 		<%= r.getCommento() %><br>
+		<%= r.getData_recensione().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) %><br>
+		
 		<%
 		if(r.getUtente().getId_utente() == id){
 		%>
@@ -74,6 +78,7 @@ if(rec != null && !rec.isEmpty()){
 			<% } %>
 		</form>
 		<% } %>
+		<br>
 <% }} %>
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>

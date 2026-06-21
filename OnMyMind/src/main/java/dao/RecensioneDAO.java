@@ -71,6 +71,28 @@ public class RecensioneDAO {
         return list;
     }
 
+    public boolean hasReviewed(int idUtente, int idCappello) {
+        String query = "SELECT COUNT(*) FROM recensione WHERE id_utente = ? AND id_cappello = ?";
+        
+        try (Connection con = DBConnection.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(query)) {
+            
+            ps.setInt(1, idUtente);
+            ps.setInt(2, idCappello);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        
+        return false;
+    }
+    
     public boolean delete(int id) {
 
         String sql = "DELETE FROM recensione WHERE id_recensione=?";
