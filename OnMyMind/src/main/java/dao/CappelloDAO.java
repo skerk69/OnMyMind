@@ -119,7 +119,7 @@ public class CappelloDAO {
         }
     }
 
-    public ArrayList<Cappello> search(Integer idCategoria, String colore, String taglia, Double prezzoMin, Double prezzoMax) {
+    public ArrayList<Cappello> search(String nome, Integer idCategoria, String colore, String taglia, Double prezzoMin, Double prezzoMax) {
 
         ArrayList<Cappello> list = new ArrayList<>();
 
@@ -127,21 +127,47 @@ public class CappelloDAO {
 
         try (Connection conn = DBConnection.getConnection()) {
 
-            if (idCategoria != null) sql.append(" AND id_categoria = ?");
-            if (colore != null) sql.append(" AND colore = ?");
-            if (taglia != null) sql.append(" AND taglia = ?");
-            if (prezzoMin != null) sql.append(" AND prezzo >= ?");
-            if (prezzoMax != null) sql.append(" AND prezzo <= ?");
+            if (nome != null && !nome.trim().isEmpty()) {
+                sql.append(" AND nome LIKE ?");
+            }
+            if (idCategoria != null) {
+                sql.append(" AND id_categoria = ?");
+            }
+            if (colore != null && !colore.trim().isEmpty()) {
+                sql.append(" AND colore LIKE ?"); 
+            }
+            if (taglia != null) {
+                sql.append(" AND taglia = ?");
+            }
+            if (prezzoMin != null) {
+                sql.append(" AND prezzo >= ?");
+            }
+            if (prezzoMax != null) {
+                sql.append(" AND prezzo <= ?");
+            }
 
             PreparedStatement ps = conn.prepareStatement(sql.toString());
 
             int i = 1;
 
-            if (idCategoria != null) ps.setInt(i++, idCategoria);
-            if (colore != null) ps.setString(i++, colore);
-            if (taglia != null) ps.setString(i++, taglia);
-            if (prezzoMin != null) ps.setDouble(i++, prezzoMin);
-            if (prezzoMax != null) ps.setDouble(i++, prezzoMax);
+            if (nome != null && !nome.trim().isEmpty()) {
+                ps.setString(i++, "%" + nome.trim() + "%"); 
+            }
+            if (idCategoria != null) {
+                ps.setInt(i++, idCategoria);
+            }
+            if (colore != null && !colore.trim().isEmpty()) {
+                ps.setString(i++, "%" + colore.trim() + "%");
+            }
+            if (taglia != null) {
+                ps.setString(i++, taglia);
+            }
+            if (prezzoMin != null) {
+                ps.setDouble(i++, prezzoMin);
+            }
+            if (prezzoMax != null) {
+                ps.setDouble(i++, prezzoMax);
+            }
 
             ResultSet rs = ps.executeQuery();
 

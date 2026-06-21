@@ -5,12 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Cappello;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import dao.CappelloDAO;
 
 /**
  * Servlet implementation class CollectionServlet
@@ -32,11 +28,13 @@ public class CollectionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/*
 		CappelloDAO cap = new CappelloDAO(); 
 		
 		ArrayList<Cappello> listCap = cap.getAll();
 		
 		request.setAttribute("cappelli", listCap);
+		*/
 		
 		request.getRequestDispatcher("/WEB-INF/view/collection.jsp")
 			.forward(request, response);

@@ -9,7 +9,6 @@ String ruolo = (String) session.getAttribute("ruolo");
 <li id="logo"><img src="${pageContext.request.contextPath}/images/OnMyMindLogo.png" width=100></li>
 <li id="home"><a href="${pageContext.request.contextPath}/home">HOME</a></li>
 <li id="collezione"><a href="${pageContext.request.contextPath}/collection">COLLEZIONE</a></li>
-<li id="cerca">CERCA</li>
 <% if(ruolo == null){ %>
 <li id="login"><a href="${pageContext.request.contextPath}/loginpage">LOGIN</a></li> 
 <% } %>
