@@ -8,6 +8,11 @@ public class DettaglioOrdine {
 	private int id_cappello;
 	private Ordine ordine;
 	private int id_ordine;
+	private String nome_cappello;
+	private String taglia;
+	private String colore;
+	private String immagine;
+	
 	public double getPrezzo_unitario() {
 		return prezzo_unitario;
 	}
@@ -23,10 +28,16 @@ public class DettaglioOrdine {
 	public Cappello getCappello() {
 		return cappello;
 	}
+	
 	public void setCappello(Cappello cappello) {
 		this.cappello = cappello;
 		if (cappello != null) {
             this.id_cappello = cappello.getId_cappello();
+            this.nome_cappello = cappello.getNome();
+            this.taglia = cappello.getTaglia();
+            this.colore = cappello.getColore();
+            this.immagine = cappello.getImmagine();
+            this.prezzo_unitario = cappello.getPrezzo();
         }
 	}
 	public int getId_cappello() {
@@ -51,5 +62,28 @@ public class DettaglioOrdine {
 		this.id_ordine = id_ordine;
 	}
 	
-	
+	public String getNome_cappello() {
+		return nome_cappello;
+	}
+	public void setNome_cappello(String nome_cappello) {
+		this.nome_cappello = nome_cappello;
+	}
+	public String getTaglia() {
+		return taglia;
+	}
+	public void setTaglia(String taglia) {
+		this.taglia = taglia;
+	}
+	public String getColore() {
+		return colore;
+	}
+	public void setColore(String colore) {
+		this.colore = colore;
+	}
+	public String getImmagine() {
+		return immagine;
+	}
+	public void setImmagine(String immagine) {
+		this.immagine = immagine;
+	}
 }

@@ -12,8 +12,6 @@ import model.Utente;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.mysql.cj.Session;
-
 import dao.IndirizzoDAO;
 import dao.UtenteDAO;
 
@@ -75,9 +73,7 @@ public class ProfileServlet extends HttpServlet {
 	}
 
 	public void doInsertAddress(HttpServletRequest request) {
-		
-		int cont=0;
-		
+				
 		HttpSession session = request.getSession();
 		Utente u = (Utente) session.getAttribute("utente");
 		ArrayList<Indirizzo> listaAddress = u.getIndirizzi();
@@ -88,37 +84,30 @@ public class ProfileServlet extends HttpServlet {
 		String cap;
 		String citta;
 		String via;
-		
-		boolean indirizzi = true;
-		
-		while(indirizzi){
-						
-			paese = request.getParameter("paese" + cont);
-			provincia = request.getParameter("provincia" + cont);
-			cap = request.getParameter("cap" + cont);
-			citta = request.getParameter("citta" + cont);
-			via = request.getParameter("via" + cont);
+										
+		paese = request.getParameter("paese");
+		provincia = request.getParameter("provincia");
+		cap = request.getParameter("cap");
+		citta = request.getParameter("citta");
+		via = request.getParameter("via");
 			
-			if(paese == null || provincia == null || cap == null || citta == null || via == null ) {
-				indirizzi=false;
-			} else {
+		if(paese != null && !paese.isBlank() && provincia != null && !provincia.isBlank() && cap != null && !cap.isBlank() && citta != null && !citta.isBlank() && via != null && !via.isBlank()) {
 			
-				Indirizzo indirizzo= new Indirizzo();	
-				
-				indirizzo.setPaese(paese);
-				indirizzo.setProvincia(provincia);
-				indirizzo.setCap(cap);
-				indirizzo.setCitta(citta);
-				indirizzo.setVia(via);
-				indirizzo.setUtente(u);
-				
-				listaAddress.add(indirizzo);
-				idao.insert(indirizzo);
-				
-				cont++;
-			}
+			Indirizzo indirizzo= new Indirizzo();	
+			
+			indirizzo.setPaese(paese);
+			indirizzo.setProvincia(provincia);
+			indirizzo.setCap(cap);
+			indirizzo.setCitta(citta);
+			indirizzo.setVia(via);
+			indirizzo.setUtente(u);
+			
+			listaAddress.add(indirizzo);
+			idao.insert(indirizzo);
+			
+			} 
 		}
-	}
+	
 	
 	public void doModify(HttpServletRequest request) {
 		
@@ -130,16 +119,19 @@ public class ProfileServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		Utente u = (Utente) session.getAttribute("utente");
-				
+		
+		if(email != null && !email.isBlank()) {
+			UtenteDAO udao = new UtenteDAO();
+			if(!udao.checkEmailExists(email)) {
+				u.setEmail(email);
+			}
+		}
 		if(nome != null && !nome.isBlank()) {
 			u.setNome(nome);
 		}
 		if(cognome != null && !cognome.isBlank()) {
 			u.setCognome(cognome);
 		}		
-		if(email != null && !email.isBlank()) {
-			u.setEmail(email);
-		}
 		if(password != null && !password.isBlank()) {
 			u.setPassword(password);
 		}
@@ -158,11 +150,11 @@ public class ProfileServlet extends HttpServlet {
 		
 		int id_indirizzo = Integer.parseInt(request.getParameter("id_indirizzo"));
 		
-		String paese = request.getParameter("paese" + id_indirizzo);
-		String provincia = request.getParameter("provincia" + id_indirizzo); 
-		String cap = request.getParameter("cap" + id_indirizzo); 
-		String citta = request.getParameter("citta" + id_indirizzo); 
-		String via = request.getParameter("via" + id_indirizzo);
+		String paese = request.getParameter("paese");
+		String provincia = request.getParameter("provincia"); 
+		String cap = request.getParameter("cap"); 
+		String citta = request.getParameter("citta"); 
+		String via = request.getParameter("via");
 		
 		HttpSession session = request.getSession();
 		

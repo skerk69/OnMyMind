@@ -6,13 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Cappello;
-import model.Categoria;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import dao.CappelloDAO;
-import dao.CategoriaDAO;
 
 /**
  * Servlet implementation class CollectionServlet

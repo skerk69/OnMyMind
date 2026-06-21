@@ -18,8 +18,10 @@
 <%
 Cappello cap = (Cappello) request.getAttribute("cappello"); 
 Categoria cat = (Categoria) request.getAttribute("categoria");
+@SuppressWarnings("unchecked")
 ArrayList<Recensione> rec = (ArrayList<Recensione>) request.getAttribute("recensioni");
 Utente u = (Utente) session.getAttribute("utente");
+boolean comprato = (boolean) request.getAttribute("comprato"); 
 int id = 0;
 if(u != null){
 	id = u.getId_utente();
@@ -37,12 +39,12 @@ if(u != null){
   			<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
     
     		<label for="quantita">Quantità:</label>
-    		<input type="number" id="quantita" name="quantita" value="1" min="1"><br>
+    		<input type="number" id="quantita" name="quantita" value="1" min="1" max="5"><br>
     
     		<button type="submit">Aggiungi al Carrello</button>
 		</form>
 
-	<!-- fare in modo che si possa pubblicare una recensione solo se risulta almeno un ordine dell'utente che contiene il relativo cappello -->
+		<% if(comprato){ %>
 		<form action="${pageContext.request.contextPath}/addreview" method="post">
 			<label> Voto:
 			<input type="number" id="voto" name="voto"><br>
@@ -53,7 +55,7 @@ if(u != null){
 			<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
 			<button type="submit">Pubblica Recensione</button><br> 
 		</form>
-
+		<% } %>
 <%
 if(rec != null && !rec.isEmpty()){
 		for(Recensione r : rec){
@@ -67,7 +69,9 @@ if(rec != null && !rec.isEmpty()){
 		<form action="${pageContext.request.contextPath}/removereview" method="post">
 			<input type="hidden" name="id_rec" value="<%= r.getId_recensione() %>">
 			<input type="hidden" name="id_cap" value="<%= cap.getId_cappello() %>">
+			<% if(u != null && u.getId_utente()== r.getUtente().getId_utente()){ %>
 			<button type="submit">Elimina Recensione</button>		
+			<% } %>
 		</form>
 		<% } %>
 <% }} %>

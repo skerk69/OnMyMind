@@ -6,14 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Cappello;
 import model.Ordine;
 import model.Utente;
+import model.Utente.Ruolo;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dao.CappelloDAO;
 import dao.DettaglioOrdineDAO;
 import dao.OrdineDAO;
 
@@ -41,7 +40,18 @@ public class OrdersPageServlet extends HttpServlet {
 		Utente u = (Utente) session.getAttribute("utente");
 		OrdineDAO odao = new OrdineDAO();
 		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
-		ArrayList<Ordine> olist = odao.getByUtente(u.getId_utente());
+		ArrayList<Ordine> olist;
+		
+		if(u == null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+		}
+		
+		if(u.getRuolo() == Ruolo.ADMIN) {
+			olist = odao.getAll();
+		} else {
+			olist = odao.getByUtente(u.getId_utente());
+		}
+		
 		
 		for(Ordine o : olist) {
 			o.setDettagliordini(ddao.getByOrdine(o.getId_ordine()));

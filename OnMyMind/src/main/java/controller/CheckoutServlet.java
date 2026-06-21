@@ -37,12 +37,15 @@ public class CheckoutServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<DettaglioOrdine> cart = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
 		Utente u = (Utente) session.getAttribute("utente");
 		
-		if(u == null || cart.isEmpty()) {
-			response.sendRedirect(request.getContextPath() + "/home");
-		}else {
+		if(u == null ) {
+			response.sendRedirect(request.getContextPath() + "/loginpage");
+		}else if(cart.isEmpty()){
+			response.sendRedirect(request.getContextPath() + "/cartpage");
+		} else {
 			
 			IndirizzoDAO idao = new IndirizzoDAO();
 			

@@ -5,13 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Utente;
-import model.Utente.Ruolo;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import dao.UtenteDAO;
 
 /**
  * Servlet implementation class LoginPageServlet

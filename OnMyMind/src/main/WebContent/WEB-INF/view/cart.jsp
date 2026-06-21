@@ -14,20 +14,21 @@
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 <%
-ArrayList<DettaglioOrdine> dolist = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello"); 
+@SuppressWarnings("unchecked")
+ArrayList<DettaglioOrdine> dolist = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
+@SuppressWarnings("unchecked")
 ArrayList<Cappello> listcap = (ArrayList<Cappello>) request.getAttribute("cappelli");
 double tot = 0;
 if(dolist != null && !dolist.isEmpty()){
 	for(DettaglioOrdine d : dolist){
 %>
-	<% Cappello cap = d.getCappello(); %>
-	<img src="${pageContext.request.contextPath}/images/<%= cap.getImmagine() %>" width=100><br>
-    <%= cap.getNome() %><br>
+	<img src="${pageContext.request.contextPath}/images/<%= d.getImmagine() %>" width=100><br>
+    <%= d.getNome_cappello() %><br>
 	Pezzi: <%= d.getQuantita() %>, 
 	Prezzo: <span class="prezzo"><%= d.getPrezzo_unitario() * d.getQuantita() %> </span>$ <br>
 
 	<form action="${pageContext.request.contextPath}/removecart" method="post"><!--  da fare -->
-		<input type="hidden" name="id" value="<%= cap.getId_cappello() %>">
+		<input type="hidden" name="id" value="<%= d.getId_cappello() %>">
 		<button type="submit">Rimuovi</button>
 	</form>
 	<% tot+= d.getPrezzo_unitario()*d.getQuantita(); %>

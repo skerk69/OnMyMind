@@ -16,19 +16,27 @@
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 <% 
+@SuppressWarnings("unchecked")
 ArrayList<Ordine> olist = (ArrayList<Ordine>) request.getAttribute("ordini");
+@SuppressWarnings("unchecked")
 ArrayList<Cappello> clist = (ArrayList<Cappello>) request.getAttribute("cappelli");
 ArrayList<DettaglioOrdine> dlist;
+String ruolo = (String) session.getAttribute("ruolo");
 Cappello c;
 if(olist != null && !olist.isEmpty()){
 	for(Ordine o : olist){
 %>
-		Ordine fatto il  <%= o.getData_ordine().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) %><br>
+		Ordine fatto il  <%= o.getData_ordine().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) %>
+		<% if(ruolo.equals("admin")){ %>
+			da <%= o.getUtente().getNome() + " " + o.getUtente().getCognome() + ", " + o.getUtente().getEmail()%>
+		<% } %>
+		<br>
 		<% 
 		dlist = o.getDettagliordini();
 		for(DettaglioOrdine d : dlist){
 		%>
-			<%= d.getCappello().getNome() + " x" + d.getQuantita()%><br>
+			<img src="${pageContext.request.contextPath}/images/<%= d.getImmagine() %>" width=100><br>
+			<%= d.getNome_cappello() + " " + d.getTaglia() + " " + d.getColore() + " x" + d.getQuantita()%><br>
 			
 <% } %>
 <span class="prezzo"><%= o.getTotale() %></span>$

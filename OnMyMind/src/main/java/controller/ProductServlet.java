@@ -208,7 +208,6 @@ public class ProductServlet extends HttpServlet {
 	public void doDelete(HttpServletRequest request) {
 		
 		CappelloDAO cap = new CappelloDAO();
-		CategoriaDAO cat = new CategoriaDAO();		
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		

@@ -19,6 +19,7 @@
     Categoria: <select name="id_categoria">
     
     <%
+    @SuppressWarnings("unchecked")
     ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("categorie");
     if(!listCat.isEmpty()){
     for(Categoria cat: listCat)
@@ -106,6 +107,7 @@ for (Categoria c : listCat) {
 <h2>Lista Cappelli</h2>
 
 <%
+@SuppressWarnings("unchecked")
 ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappelli");
 if(!listCap.isEmpty()){
 for (Cappello c : listCap) {

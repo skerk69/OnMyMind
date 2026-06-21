@@ -8,21 +8,25 @@ import java.util.ArrayList;
 import connection.DBConnection;
 import model.DettaglioOrdine;
 import model.Cappello;
-import model.Ordine;
 
 public class DettaglioOrdineDAO {
 
     public boolean insert(DettaglioOrdine d) {
 
-        String sql = "INSERT INTO dettaglio_ordine (id_ordine, id_cappello, quantita, prezzo_unitario) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO dettaglio_ordine (id_ordine, id_cappello, quantita, prezzo_unitario, nome_cappello, taglia, colore, immagine) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, d.getOrdine().getId_ordine());
-            ps.setInt(2, d.getCappello().getId_cappello());
+            ps.setInt(1, d.getId_ordine());
+            ps.setInt(2, d.getId_cappello());
             ps.setInt(3, d.getQuantita());
             ps.setDouble(4, d.getPrezzo_unitario());
+            ps.setString(5, d.getNome_cappello());
+            ps.setString(6, d.getTaglia());
+            ps.setString(7, d.getColore());
+            ps.setString(8, d.getImmagine());
 
             return ps.executeUpdate() > 0;
 
@@ -35,8 +39,8 @@ public class DettaglioOrdineDAO {
 
         ArrayList<DettaglioOrdine> list = new ArrayList<>();
 
-        String sql = "SELECT d.*, c.* FROM dettaglio_ordine d " +
-                     "JOIN cappello c ON d.id_cappello = c.id_cappello " +
+        String sql = "SELECT d.*, c.materiale, c.quantita_magazzino, c.descrizione FROM dettaglio_ordine d " +
+                     "LEFT JOIN cappello c ON d.id_cappello = c.id_cappello " +
                      "WHERE d.id_ordine = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -53,17 +57,21 @@ public class DettaglioOrdineDAO {
                     d.setId_cappello(rs.getInt("id_cappello"));
                     d.setQuantita(rs.getInt("quantita"));
                     d.setPrezzo_unitario(rs.getDouble("prezzo_unitario"));
+                    d.setNome_cappello(rs.getString("nome_cappello"));
+                    d.setTaglia(rs.getString("taglia"));
+                    d.setColore(rs.getString("colore"));
+                    d.setImmagine(rs.getString("immagine"));
 
                     Cappello c = new Cappello();
-                    c.setId_cappello(rs.getInt("id_cappello"));
-                    c.setNome(rs.getString("nome"));
-                    c.setDescrizione(rs.getString("descrizione"));
-                    c.setPrezzo(rs.getDouble("prezzo"));
-                    c.setTaglia(rs.getString("taglia"));
-                    c.setColore(rs.getString("colore"));
+                    c.setId_cappello(d.getId_cappello());
+                    c.setNome(d.getNome_cappello());
+                    c.setPrezzo(d.getPrezzo_unitario());
+                    c.setTaglia(d.getTaglia());
+                    c.setColore(d.getColore());
+                    c.setImmagine(d.getImmagine());
                     c.setMateriale(rs.getString("materiale"));
+                    c.setDescrizione(rs.getString("descrizione"));
                     c.setQuantitaMagazzino(rs.getInt("quantita_magazzino"));
-                    c.setImmagine(rs.getString("immagine"));
                     
                     d.setCappello(c);
                     

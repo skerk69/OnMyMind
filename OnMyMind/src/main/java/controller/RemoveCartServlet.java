@@ -46,6 +46,7 @@ public class RemoveCartServlet extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			
+			@SuppressWarnings("unchecked")
 			ArrayList<DettaglioOrdine> cart = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
 						
 			int id = Integer.parseInt(idStr);

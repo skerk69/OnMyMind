@@ -10,8 +10,6 @@ import model.Utente;
 import model.Utente.Ruolo;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import dao.UtenteDAO;
 

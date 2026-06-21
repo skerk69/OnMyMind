@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Cappello;
 import model.Categoria;
 import model.Recensione;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import dao.CappelloDAO;
 import dao.CategoriaDAO;
+import dao.OrdineDAO;
 import dao.RecensioneDAO;
 import dao.UtenteDAO;
 
@@ -56,6 +58,17 @@ public class OpenProductServlet extends HttpServlet {
 				r.setUtente(udao.getById(r.getUtente().getId_utente()));
 			}
 			
+			OrdineDAO odao = new OrdineDAO();
+			
+			HttpSession session = request.getSession();			
+			Utente u = (Utente) session.getAttribute("utente");
+			boolean comprato;
+			if(u != null) {
+				comprato = odao.hasBought(u.getId_utente(), id);
+			}else {
+				comprato = false;
+			}
+			request.setAttribute("comprato", comprato);
 			request.setAttribute("cappello", cap);
 			request.setAttribute("categoria", cat);
 			request.setAttribute("recensioni", rec);

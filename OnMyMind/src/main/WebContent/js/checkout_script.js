@@ -1,4 +1,7 @@
-document.getElementById("sceltaIndirizzo").addEventListener("change", function() {
+const scelta = document.getElementById("sceltaIndirizzo");
+
+if(scelta){
+scelta.addEventListener("input", function() {
     let spanNuovoIndirizzo = document.getElementById("nuovo");
     let btn = document.getElementById("order");
     if (this.value === "0") {
@@ -9,3 +12,5 @@ document.getElementById("sceltaIndirizzo").addEventListener("change", function()
 		btn.disabled = false;
     }
 });
+scelta.dispatchEvent(new Event("input"));
+}

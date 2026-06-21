@@ -36,6 +36,7 @@ public class CartPageServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<DettaglioOrdine> dolist = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello"); 
 
 		ArrayList<Cappello> cap = new ArrayList<Cappello>();

@@ -47,7 +47,6 @@ public class RemoveReviewServlet extends HttpServlet {
 		if(idCapStr != null && !idCapStr.isBlank() && idRecStr != null && !idRecStr.isBlank()) {
 							
 				int idRec = Integer.parseInt(idRecStr);
-				int idCap = Integer.parseInt(idCapStr);
 				RecensioneDAO rdao = new RecensioneDAO();
 				
 				rdao.delete(idRec);

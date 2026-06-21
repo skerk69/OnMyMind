@@ -14,6 +14,7 @@
 <body>
 
 <% 
+@SuppressWarnings("unchecked")
 ArrayList<Cappello> listCap = (ArrayList<Cappello>) request.getAttribute("cappelli");
 
 for(Cappello c : listCap){

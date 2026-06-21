@@ -16,6 +16,7 @@
 
 <select name="id" id="sceltaIndirizzo">
 <%
+@SuppressWarnings("unchecked")
 ArrayList<Indirizzo> listAddress = (ArrayList<Indirizzo>) request.getAttribute("indirizzi");
 if(!listAddress.isEmpty()){
 for(Indirizzo i : listAddress){

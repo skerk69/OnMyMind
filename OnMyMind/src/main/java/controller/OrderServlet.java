@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Cappello;
 import model.DettaglioOrdine;
 import model.Indirizzo;
 import model.Ordine;
@@ -13,9 +14,9 @@ import model.Ordine.StatoOrdine;
 import model.Utente;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 
+import dao.CappelloDAO;
 import dao.DettaglioOrdineDAO;
 import dao.IndirizzoDAO;
 import dao.OrdineDAO;
@@ -59,7 +60,7 @@ public class OrderServlet extends HttpServlet {
 			addAddress(request);
 			response.sendRedirect(request.getContextPath() + "/checkout");
 		}else {
-			doOrder(request);
+			doOrder(request, response);
 			response.sendRedirect(request.getContextPath() + "/orders");
 		}
 		
@@ -100,24 +101,31 @@ public class OrderServlet extends HttpServlet {
 		}
 	}
 	
-	public void doOrder(HttpServletRequest request) {
+	public void doOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		HttpSession session = request.getSession();
 		
 		Utente u = (Utente) session.getAttribute("utente");
+		@SuppressWarnings("unchecked")
 		ArrayList<DettaglioOrdine> cart = (ArrayList<DettaglioOrdine>) session.getAttribute("carrello");
+		CappelloDAO cdao = new CappelloDAO();
 
+		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
+		
+		Cappello c;
+		double tot=0;
+		for(DettaglioOrdine d : cart) {
+			c = cdao.getById(d.getId_cappello());
+			if(c.getQuantitaMagazzino() - d.getQuantita() < 0) {
+				response.sendRedirect(request.getContextPath() + "/cartpage");
+			}
+			tot+= d.getPrezzo_unitario()*d.getQuantita();
+		}
+		
 		Ordine o = new Ordine();
 		o.setStato_ordine(StatoOrdine.IN_ATTESA);
 		o.setDettagliordini(cart);
 		o.setUtente(u);
-		
-		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
-		
-		double tot=0;
-		for(DettaglioOrdine d : cart) {
-			tot+= d.getPrezzo_unitario()*d.getQuantita();
-		}
 		o.setTotale(tot);
 		o.setStato_ordine(StatoOrdine.PAGATO);
 
@@ -126,9 +134,13 @@ public class OrderServlet extends HttpServlet {
 		o.setId_ordine(odao.insert(o));
 		
 		for(DettaglioOrdine d : cart) {
+			c = cdao.getById(d.getId_cappello());
+			c.setQuantitaMagazzino(c.getQuantitaMagazzino() - d.getQuantita());
+			cdao.update(c);
 			d.setId_ordine(o.getId_ordine());
 			d.setOrdine(o);
 			ddao.insert(d);
+			
 		}
 		
 		cart = new ArrayList<DettaglioOrdine>();
