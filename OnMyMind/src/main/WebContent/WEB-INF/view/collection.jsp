@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Categoria"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,6 +10,11 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
+
+<%
+@SuppressWarnings("unchecked")
+ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("listCat");
+%>
 
     <div class="catalogo">
 
@@ -20,6 +27,18 @@
     </div>
 
     <hr> <h3>Filtri</h3>
+    
+			<div class="gruppo-filtro">
+                <label for="input-categoria">Categoria:</label>
+                <select id="input-categoria">
+                    <option value="">Tutte le categorie</option>
+					<% if(listCat != null && !listCat.isEmpty()){ 
+						for(Categoria c : listCat){ %>
+                        <option value="<%= c.getId_categoria() %>"><%= c.getNomeCategoria() %></option>
+                    <% } } %>
+                </select>
+            </div>    
+    
     
     <div class="gruppo-filtro">
     	<label for="input-colore">Colore:</label>
@@ -35,8 +54,8 @@
 
     <div class="gruppo-filtro">
         <label>Prezzo ($):</label>
-        <input type="number" id="input-prezzo-min" step="0.01" placeholder="Min">
-        <input type="number" id="input-prezzo-max" step="0.01" placeholder="Max">
+        <input type="number" id="input-prezzo-min" step="0.01" placeholder="Min" min="0">
+        <input type="number" id="input-prezzo-max" step="0.01" placeholder="Max" min="0">
     </div>
 </div>
 

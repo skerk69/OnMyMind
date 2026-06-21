@@ -14,6 +14,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
+<br><br>
+
 
 <% 
 @SuppressWarnings("unchecked")
@@ -23,6 +25,9 @@ ArrayList<Cappello> clist = (ArrayList<Cappello>) request.getAttribute("cappelli
 ArrayList<DettaglioOrdine> dlist;
 String ruolo = (String) session.getAttribute("ruolo");
 Cappello c;
+%>
+
+<% 
 if(olist != null && !olist.isEmpty()){
 	for(Ordine o : olist){
 %>
@@ -41,7 +46,9 @@ if(olist != null && !olist.isEmpty()){
 <% } %>
 <span class="prezzo"><%= o.getTotale() %></span>$
 <br><br>
+
 <% } } %>
+
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
 

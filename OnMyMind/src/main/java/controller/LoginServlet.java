@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Utente;
 import model.Utente.Ruolo;
+import utils.PasswordUtils;
 
 import java.io.IOException;
 
@@ -67,7 +68,7 @@ public class LoginServlet extends HttpServlet {
 		
 		Ruolo ruolo;
 
-		Utente u = user.login(email, password);	
+		Utente u = user.login(email, PasswordUtils.hashPassword(password));	
 		
 		if(u == null) {
 			ruolo = null;

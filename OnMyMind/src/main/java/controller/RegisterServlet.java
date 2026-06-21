@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Utente;
 import model.Utente.Ruolo;
+import utils.PasswordUtils;
 
 import java.io.IOException;
 
@@ -75,7 +76,7 @@ public class RegisterServlet extends HttpServlet {
 		Utente u = new Utente();
 		
 		u.setEmail(email);
-		u.setPassword(password);
+		u.setPassword(PasswordUtils.hashPassword(password));
 		u.setNome(nome);
 		u.setCognome(cognome);
 		u.setTelefono(telefono);

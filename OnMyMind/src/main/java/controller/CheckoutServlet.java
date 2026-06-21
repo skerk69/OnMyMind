@@ -43,7 +43,7 @@ public class CheckoutServlet extends HttpServlet {
 		
 		if(u == null ) {
 			response.sendRedirect(request.getContextPath() + "/loginpage");
-		}else if(cart.isEmpty()){
+		}else if(cart == null || cart.isEmpty()){
 			response.sendRedirect(request.getContextPath() + "/cartpage");
 		} else {
 			

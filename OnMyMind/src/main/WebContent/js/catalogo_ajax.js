@@ -1,14 +1,14 @@
 function caricaProdotti() {
 
     const stringaRicerca = document.getElementById("input-ricerca").value;
-    
     const colore = document.getElementById("input-colore").value;
     const taglia = document.getElementById("input-taglia").value;
     const prezzoMin = document.getElementById("input-prezzo-min").value;
     const prezzoMax = document.getElementById("input-prezzo-max").value;
+    const categoria = document.getElementById("input-categoria").value;
 
     const urlParams = new URLSearchParams({
-        categoria: "", 
+        categoria: categoria,
         nome: stringaRicerca,
         colore: colore,
         taglia: taglia,
@@ -17,8 +17,6 @@ function caricaProdotti() {
     });
 
     const url = contextPath + "/search?" + urlParams.toString(); 
-
-    console.log("Chiamata AJAX a: ", url);
 
     fetch(url)
         .then(response => {
@@ -31,8 +29,8 @@ function caricaProdotti() {
             const contenitore = document.getElementById("contenitore");
             contenitore.innerHTML = ""; 
 
-			aggiornaSuggerimentiColori(listaCappelli);
-			
+            aggiornaSuggerimentiColori(listaCappelli);
+            
             if (listaCappelli.length === 0) {
                 contenitore.innerHTML = "<p>Nessun cappello corrisponde ai criteri di ricerca.</p>";
                 return;
@@ -55,17 +53,52 @@ function caricaProdotti() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    const minInput = document.getElementById("input-prezzo-min");
+    const maxInput = document.getElementById("input-prezzo-max");
+
+    if (minInput && maxInput) {
+        if (minInput.value) maxInput.min = minInput.value;
+        if (maxInput.value) minInput.max = maxInput.value;
+    }
+
     caricaProdotti();
 
     document.getElementById("input-ricerca").addEventListener("input", caricaProdotti);
     document.getElementById("input-colore").addEventListener("input", caricaProdotti);
     document.getElementById("input-taglia").addEventListener("input", caricaProdotti);
-    document.getElementById("input-prezzo-min").addEventListener("input", caricaProdotti);
-    document.getElementById("input-prezzo-max").addEventListener("input", caricaProdotti);
+    
+    document.getElementById("input-categoria").addEventListener("change", caricaProdotti);
+
+    if (minInput) {
+        minInput.addEventListener("input", () => {
+            const minVal = minInput.value;
+            if (maxInput) {
+                maxInput.min = minVal;
+                if (maxInput.value && parseFloat(maxInput.value) < parseFloat(minVal)) {
+                    maxInput.value = minVal;
+                }
+            }
+            caricaProdotti(); 
+        });
+    }
+
+    if (maxInput) {
+        maxInput.addEventListener("input", () => {
+            const maxVal = maxInput.value;
+            if (minInput) {
+                minInput.max = maxVal;
+                if (minInput.value && parseFloat(minInput.value) > parseFloat(maxVal)) {
+                    minInput.value = maxVal;
+                }
+            }
+            caricaProdotti(); 
+        });
+    }
 });
 
 function aggiornaSuggerimentiColori(listaCappelli) {
     const datalist = document.getElementById("suggerimenti-colori");
+    if (!datalist) return;
     
     const coloriUnici = new Set();
     
@@ -82,4 +115,3 @@ function aggiornaSuggerimentiColori(listaCappelli) {
         datalist.appendChild(option);
     });
 }
-

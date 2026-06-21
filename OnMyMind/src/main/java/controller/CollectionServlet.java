@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import dao.CategoriaDAO;
+
 /**
  * Servlet implementation class CollectionServlet
  */
@@ -28,13 +30,9 @@ public class CollectionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*
-		CappelloDAO cap = new CappelloDAO(); 
+		CategoriaDAO cdao = new CategoriaDAO();
 		
-		ArrayList<Cappello> listCap = cap.getAll();
-		
-		request.setAttribute("cappelli", listCap);
-		*/
+		request.setAttribute("listCat", cdao.getAll());
 		
 		request.getRequestDispatcher("/WEB-INF/view/collection.jsp")
 			.forward(request, response);

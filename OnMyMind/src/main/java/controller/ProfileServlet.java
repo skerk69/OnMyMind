@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Indirizzo;
 import model.Utente;
+import utils.PasswordUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class ProfileServlet extends HttpServlet {
 			u.setCognome(cognome);
 		}		
 		if(password != null && !password.isBlank()) {
-			u.setPassword(password);
+			u.setPassword(PasswordUtils.hashPassword(password));
 		}
 		if(telefono != null && !telefono.isBlank()) {
 			u.setTelefono(telefono);

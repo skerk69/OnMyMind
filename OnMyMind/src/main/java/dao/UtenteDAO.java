@@ -19,7 +19,7 @@ public class UtenteDAO {
             ps.setString(1, u.getNome());
             ps.setString(2, u.getCognome());
             ps.setString(3, u.getEmail());
-            ps.setString(4, hashPassword(u.getPassword()));
+            ps.setString(4, u.getPassword());
             ps.setString(5, u.getTelefono());
             ps.setString(6, u.getRuolo().getDbValue());
 
@@ -80,7 +80,7 @@ public class UtenteDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
-            ps.setString(2, hashPassword(password));
+            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
@@ -111,7 +111,7 @@ public class UtenteDAO {
             ps.setString(1, u.getNome());
             ps.setString(2, u.getCognome());
             ps.setString(3, u.getEmail());
-            ps.setString(4, hashPassword(u.getPassword()));
+            ps.setString(4, u.getPassword());
             ps.setString(5, u.getTelefono());
             ps.setString(6, u.getRuolo().getDbValue());
             ps.setInt(7, u.getId_utente());
@@ -182,23 +182,5 @@ public class UtenteDAO {
         }
         return false;
     }
-	public static String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            
-            byte[] hashBytes = digest.digest(password.getBytes());
-            
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hashBytes) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            
-            return hexString.toString();
-            
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Errore: Algoritmo di hashing non trovato", e);
-        }
-    }
+
 }
