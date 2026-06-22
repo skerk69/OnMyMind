@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-footer {
+    background-color: #10242b;
+    color: #f4f0eb;
+    padding: 50px 0 20px 0;
+    margin-top: 80px;
+    border-top: 1px solid rgba(207, 166, 112, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-brand .footer-logo {
+    color: #cfa670;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    font-weight: 500;
+}
+
+.footer-brand .footer-tagline {
+    font-size: 0.9rem;
+    color: rgba(244, 240, 235, 0.65);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 350px;
+}
+
+.footer-column h3 {
+    color: #cfa670;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+.footer-contacts p {
+    font-size: 0.9rem;
+    color: rgba(244, 240, 235, 0.7);
+    margin: 0;
+}
+
+.footer-contacts p a {
+    color: #f4f0eb;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-contacts p a:hover {
+    color: #cfa670;
+}
+
+.footer-bottom {
+    max-width: 1300px;
+    margin: 40px auto 0 auto;
+    padding: 25px 20px 0 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.footer-bottom p {
+    font-size: 0.8rem;
+    color: rgba(244, 240, 235, 0.4);
+    margin: 0;
+    letter-spacing: 0.5px;
+}

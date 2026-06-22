@@ -3,7 +3,7 @@
 String ruolo = (String) session.getAttribute("ruolo");
 %>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/navbar.css">
 
 <nav>
     <ul>

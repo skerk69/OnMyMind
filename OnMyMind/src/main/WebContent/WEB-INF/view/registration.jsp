@@ -52,5 +52,8 @@
 </main>
 
 <script src="${pageContext.request.contextPath}/js/register_script.js"></script>
+
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 </body>
 </html>

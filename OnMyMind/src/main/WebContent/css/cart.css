@@ -129,6 +129,56 @@ body {
     font-size: 1rem;
 }
 
+.update-qty-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.lbl-qty {
+    font-size: 0.9rem;
+    color: rgba(244, 240, 235, 0.6);
+}
+
+.input-qty {
+    background-color: #10242b;
+    color: #f4f0eb;
+    border: 1px solid rgba(207, 166, 112, 0.3);
+    border-radius: 4px;
+    padding: 6px;
+    width: 55px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-qty:focus {
+    border-color: #cfa670;
+}
+
+.btn-update-qty {
+    background-color: transparent;
+    color: #cfa670;
+    border: 1px solid rgba(207, 166, 112, 0.3);
+    border-radius: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-update-qty:hover {
+    background-color: rgba(207, 166, 112, 0.1);
+    border-color: #cfa670;
+    color: #f4f0eb;
+    transform: scale(1.05);
+}
+
 .btn-remove {
     background: none;
     border: none;

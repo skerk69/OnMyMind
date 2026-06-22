@@ -39,8 +39,22 @@
                         
                         <div class="item-details">
                             <h2 class="item-name"><%= d.getNome_cappello() %></h2>
+                            
                             <div class="item-meta">
-                                <span class="item-quantity">Quantità: <strong><%= d.getQuantita() %></strong></span>
+                                <form action="${pageContext.request.contextPath}/updatecart" method="post" class="update-qty-form">
+                                    <input type="hidden" name="id" value="<%= d.getId_cappello() %>">
+                                    <label for="quantita-<%= d.getId_cappello() %>" class="lbl-qty">Quantità:</label>
+                                    <input type="number" 
+                                           id="quantita-<%= d.getId_cappello() %>" 
+                                           name="quantita" 
+                                           value="<%= d.getQuantita() %>" 
+                                           min="1" 
+                                           max="<%= d.getCappello().getQuantitaMagazzino() %>>" 
+                                           class="input-qty">
+                                    <button type="submit" class="btn-update-qty" title="Aggiorna quantità">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         
@@ -97,5 +111,8 @@
 </main>
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
+
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 </body>
 </html>

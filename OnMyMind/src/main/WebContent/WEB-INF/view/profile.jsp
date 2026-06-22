@@ -64,7 +64,7 @@
                         <button type="button" class="btn-toggle btn-secondary" data-target="form-edit-<%= i.getId_indirizzo() %>">Modifica</button>
                     </div>
                     
-                    <div id="form-edit-<%= i.getId_indirizzo() %>" class="form-modifica" hidden>
+                    <div id="form-edit-<%= i.getId_indirizzo() %>" class="form-modifica" hidden="true">
                         <form action="${pageContext.request.contextPath}/profile" method="post" class="auth-form nested-form">
                             <div class="input-group">
                                 <label>Via e Numero Civico</label>
@@ -138,5 +138,8 @@
 </main>
 
 <script src="${pageContext.request.contextPath}/js/profile_script.js"></script>
+
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 </body>
 </html>

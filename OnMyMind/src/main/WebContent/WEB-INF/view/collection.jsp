@@ -79,5 +79,7 @@ ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("list
 </script>
 <script src="${pageContext.request.contextPath}/js/catalogo_ajax.js" defer></script>
 
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 </body>
 </html>

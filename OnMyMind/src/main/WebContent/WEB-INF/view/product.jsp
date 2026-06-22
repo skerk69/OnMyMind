@@ -142,5 +142,8 @@ if(u != null){
 </main>
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
+
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 </body>
 </html>
