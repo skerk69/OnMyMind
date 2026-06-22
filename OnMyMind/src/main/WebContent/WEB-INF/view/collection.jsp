@@ -31,15 +31,14 @@ ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("list
     <hr> <h3>Filtri</h3>
     
 			<div class="gruppo-filtro">
-                <label for="input-categoria">Categoria:</label>
-                <input type="text" id="input-categoria" list="suggerimenti-categorie" placeholder="Es. Berretti, Snapback...">
-                
-                <datalist id="suggerimenti-categorie">
+                <label for="input-categoria">Categoria:</label>                
+                <select id="input-categoria">
+                		<option value="">Tutte le categorie</option>
                     <% if(listCat != null && !listCat.isEmpty()){ 
                         for(Categoria c : listCat){ %>
-                        <option value="<%= c.getNomeCategoria() %>"></option>
+                        <option value="<%= c.getId_categoria() %>"><%= c.getNomeCategoria() %></option>
                     <% } } %>
-                </datalist>
+                </select>
             </div> 
     
     

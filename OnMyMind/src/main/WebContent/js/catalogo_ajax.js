@@ -100,8 +100,11 @@ function aggiornaSuggerimentiColori(listaCappelli) {
     const datalist = document.getElementById("suggerimenti-colori");
     if (!datalist) return;
     
-    const coloriUnici = new Set();
+    if (document.activeElement === document.getElementById("input-colore")) {
+        return; 
+    }
     
+    const coloriUnici = new Set();
     listaCappelli.forEach(cappello => {
         if (cappello.colore) {
             coloriUnici.add(cappello.colore.trim());
