@@ -1,4 +1,4 @@
-   <%@page import="model.Categoria"%>
+<%@page import="model.Categoria"%>
 <%@page import="model.Cappello"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -14,9 +14,9 @@
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
 
 
+<!-- banner -->
 
-
-
+<!-- fare il footer -->
 
 </body>
 </html>

@@ -49,6 +49,7 @@ if(olist != null && !olist.isEmpty()){
 
 <% } } %>
 
+<!-- consegna dopo 3 giorni con il db -->
 
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
 

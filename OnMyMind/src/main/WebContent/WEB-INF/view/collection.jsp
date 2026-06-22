@@ -5,8 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Collezione</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/collection.css">
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/layout/navbar.jsp"/>
@@ -30,14 +33,15 @@ ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("list
     
 			<div class="gruppo-filtro">
                 <label for="input-categoria">Categoria:</label>
-                <select id="input-categoria">
-                    <option value="">Tutte le categorie</option>
-					<% if(listCat != null && !listCat.isEmpty()){ 
-						for(Categoria c : listCat){ %>
-                        <option value="<%= c.getId_categoria() %>"><%= c.getNomeCategoria() %></option>
+                <input type="text" id="input-categoria" list="suggerimenti-categorie" placeholder="Es. Berretti, Snapback...">
+                
+                <datalist id="suggerimenti-categorie">
+                    <% if(listCat != null && !listCat.isEmpty()){ 
+                        for(Categoria c : listCat){ %>
+                        <option value="<%= c.getNomeCategoria() %>"></option>
                     <% } } %>
-                </select>
-            </div>    
+                </datalist>
+            </div> 
     
     
     <div class="gruppo-filtro">
@@ -47,10 +51,17 @@ ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("list
 		<datalist id="suggerimenti-colori"></datalist>
 	</div>
 
-    <div class="gruppo-filtro">
-        <label for="input-taglia">Taglia:</label>
-        <input type="text" id="input-taglia" placeholder="Es. M, L...">
-    </div>
+			<div class="gruppo-filtro">
+                <label for="input-taglia">Taglia:</label>
+                <select id="input-taglia">
+                    <option value="">Tutte le taglie</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="Unica">Taglia Unica</option>
+                </select>
+            </div>
 
     <div class="gruppo-filtro">
         <label>Prezzo ($):</label>
@@ -64,7 +75,7 @@ ArrayList<Categoria> listCat = (ArrayList<Categoria>) request.getAttribute("list
         </main>
 
     </div>
-
+<!--  soldout se quantita = 0 -->
 <script>
         const contextPath = "${pageContext.request.contextPath}";
 </script>
