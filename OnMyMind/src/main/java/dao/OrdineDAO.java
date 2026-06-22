@@ -134,6 +134,69 @@ public class OrdineDAO {
         return list;
     }
     
+    public ArrayList<Ordine> getAllFiltered(String dataInizio, String dataFine, String utenteQuery) {
+        ArrayList<Ordine> list = new ArrayList<>();
+        
+        StringBuilder sql = new StringBuilder(
+            "SELECT o.*, u.nome, u.cognome, u.email FROM ordine o " +
+            "JOIN utente u ON o.id_utente = u.id_utente WHERE 1=1"
+        );
+        
+        ArrayList<Object> targetParams = new ArrayList<>();
+
+        if (dataInizio != null && !dataInizio.isEmpty()) {
+            sql.append(" AND o.data_ordine >= ?");
+            targetParams.add(dataInizio + " 00:00:00");
+        }
+        
+        if (dataFine != null && !dataFine.isEmpty()) {
+            sql.append(" AND o.data_ordine <= ?");
+            targetParams.add(dataFine + " 23:59:59");
+        }
+        
+        if (utenteQuery != null && !utenteQuery.isEmpty()) {
+            sql.append(" AND (u.nome LIKE ? OR u.cognome LIKE ? OR u.email LIKE ?)");
+            String pattern = "%" + utenteQuery + "%";
+            targetParams.add(pattern);
+            targetParams.add(pattern);
+            targetParams.add(pattern);
+        }
+        
+        sql.append(" ORDER BY o.data_ordine DESC");
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < targetParams.size(); i++) {
+                ps.setObject(i + 1, targetParams.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Ordine o = new Ordine();
+                    o.setId_ordine(rs.getInt("id_ordine"));
+                    o.setTotale(rs.getDouble("totale"));
+                    o.setData_ordine(rs.getTimestamp("data_ordine").toLocalDateTime());
+                    o.setStato_ordine(Ordine.StatoOrdine.fromDb(rs.getString("stato_ordine")));
+
+                    Utente u = new Utente();
+                    u.setId_utente(rs.getInt("id_utente"));
+                    u.setNome(rs.getString("nome"));
+                    u.setCognome(rs.getString("cognome"));
+                    u.setEmail(rs.getString("email"));
+                    
+                    o.setUtente(u);
+                    list.add(o);
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+    
     public boolean updateStato(int idOrdine, Ordine.StatoOrdine stato) {
 
         String sql = "UPDATE ordine SET stato_ordine=? WHERE id_ordine=?";

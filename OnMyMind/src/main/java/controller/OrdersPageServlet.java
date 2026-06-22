@@ -34,24 +34,33 @@ public class OrdersPageServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
 		Utente u = (Utente) session.getAttribute("utente");
+		
+		if(u == null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return; 
+		}
+		
+		String dataInizio = request.getParameter("dataInizio");
+		String dataFine = request.getParameter("dataFine");
+		String utenteQuery = request.getParameter("utenteQuery");
+		
+		if (dataInizio == null) dataInizio = "";
+		if (dataFine == null) dataFine = "";
+		if (utenteQuery == null) utenteQuery = "";
+		
 		OrdineDAO odao = new OrdineDAO();
 		DettaglioOrdineDAO ddao = new DettaglioOrdineDAO();
 		ArrayList<Ordine> olist;
 		
-		if(u == null) {
-			response.sendRedirect(request.getContextPath() + "/home");
-		}
-		
 		if(u.getRuolo() == Ruolo.ADMIN) {
-			olist = odao.getAll();
+			olist = odao.getAllFiltered(dataInizio, dataFine, utenteQuery);
 		} else {
 			olist = odao.getByUtente(u.getId_utente());
 		}
-		
 		
 		for(Ordine o : olist) {
 			o.setDettagliordini(ddao.getByOrdine(o.getId_ordine()));
