@@ -47,20 +47,8 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		switch(action) {
-		case "login": {
-			doLogin(email, password, request, response);
-		}
-		break;
-		case "register": {
-			response.sendRedirect(request.getContextPath() + "/registration");
-		}
-		break;
-		default: { 
-			request.getRequestDispatcher("/loginpage")
-        			.forward(request, response);
-		}
-		}
+		doLogin(email, password, request, response);
+
 	}
 
 	
