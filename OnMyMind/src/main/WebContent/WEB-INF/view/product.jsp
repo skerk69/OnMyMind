@@ -11,7 +11,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>On My Mind - <%= ((Cappello)request.getAttribute("cappello")).getNome() %></title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/product.css">
 </head>
 <body>
@@ -57,7 +56,6 @@ if(u != null){
                 <div class="spec-item"><span>Taglia:</span> <strong><%= cap.getTaglia() %></strong></div>
                 <div class="spec-item"><span>Colore:</span> <strong><%= cap.getColore() %></strong></div>
                 <div class="spec-item"><span>Materiale:</span> <strong><%= cap.getMateriale() %></strong></div>
-                <div class="spec-item"><span>Disponibilità:</span> <strong><%= cap.getQuantitaMagazzino() %> pz</strong></div>
             </div>
 
             <p class="product-description"><%= cap.getDescrizione() %></p>
