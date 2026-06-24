@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import model.Cappello;
 
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import dao.CappelloDAO;
 import dao.CategoriaDAO;
 import model.Categoria;
+import model.Utente;
+import model.Utente.Ruolo;
 
 /**
  * Servlet implementation class ProductServlet
@@ -35,6 +38,15 @@ public class ProductServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		HttpSession session = request.getSession();
+		
+		Utente u = (Utente) session.getAttribute("utente");
+		
+		if(u == null || u.getRuolo() == Ruolo.UTENTE) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+		}
+		
 		CappelloDAO cap = new CappelloDAO();
 		CategoriaDAO cat = new CategoriaDAO();
 		

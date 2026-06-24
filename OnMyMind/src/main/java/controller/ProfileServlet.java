@@ -39,6 +39,10 @@ public class ProfileServlet extends HttpServlet {
 			
 			Utente u = (Utente) session.getAttribute("utente");
 			
+			if(u == null) {
+				response.sendRedirect(request.getContextPath() + "/home");
+			}
+			
 			ArrayList<Indirizzo> listAddress = idao.getByUtente(u.getId_utente());
 			
 			request.setAttribute("indirizzi", listAddress);

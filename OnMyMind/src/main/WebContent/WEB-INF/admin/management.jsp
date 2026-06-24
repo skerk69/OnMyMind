@@ -265,7 +265,10 @@
     </section>
 </main>
 
+<jsp:include page="/WEB-INF/layout/footer.jsp"/>
+
 <script src="${pageContext.request.contextPath}/js/management_script.js" defer></script>
 <script src="${pageContext.request.contextPath}/js/priceformat_script.js" defer></script>
+
 </body>
 </html>

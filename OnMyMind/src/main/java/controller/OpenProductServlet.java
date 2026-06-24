@@ -51,6 +51,12 @@ public class OpenProductServlet extends HttpServlet {
 			UtenteDAO udao = new UtenteDAO();
 			
 			Cappello cap = capdao.getById(id);
+			
+			if(cap == null) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
+			
 			Categoria cat = catdao.getById(cap.getCategoria().getId_categoria());
 			ArrayList<Recensione> rec = rdao.getByCappello(id);
 			
